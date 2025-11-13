@@ -1,0 +1,81 @@
+:root {
+  --purple-glow: rgba(180, 80, 255, 0.9);
+  --bg-dark: #0a0a10;
+  --bg-light: #f5f5fa;
+  --text-dark: #0e0e15;
+  --text-light: #f0f0ff;
+  --transition: all 0.3s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  transition: var(--transition);
+  overflow-x: hidden;
+}
+
+/* Light mode */
+.light body {
+  background: var(--bg-light);
+  color: var(--text-dark);
+}
+
+/* Fix text visibility in light mode */
+.light nav a {
+  color: #1a1a1a !important;
+}
+
+/* Hero Section Text Glow */
+.hero-title {
+  text-shadow: 0 0 25px rgba(180, 80, 255, 0.5);
+}
+
+/* Buttons */
+.btn-primary {
+  background: #a855f7;
+  color: white;
+  padding: 12px 32px;
+  border-radius: 9999px;
+  box-shadow: 0 0 15px rgba(180, 80, 255, 0.6);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(180, 80, 255, 0.9);
+}
+
+.btn-outline {
+  border: 1.5px solid rgba(180, 80, 255, 0.7);
+  color: rgba(180, 80, 255, 0.9);
+  border-radius: 9999px;
+  padding: 12px 32px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: rgba(180, 80, 255, 0.1);
+  color: white;
+}
+
+/* Smooth fade-in */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1.2s ease forwards;
+}

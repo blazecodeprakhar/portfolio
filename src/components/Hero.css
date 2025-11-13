@@ -1,0 +1,120 @@
+.hero {
+  background: linear-gradient(to bottom, #0a0a10, #0d0d18, #07070d);
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+/* ✨ Title glow */
+.hero-glow-text {
+  background: linear-gradient(to right, #a855f7, #c084fc, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 25px rgba(180, 80, 255, 0.5);
+}
+
+/* Title base */
+.hero-title {
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 15px rgba(180, 80, 255, 0.45);
+  transition: all 0.3s ease;
+  margin-bottom: 0.8rem;
+}
+
+/* 🖥 Desktop (PC view) */
+@media (min-width: 1024px) {
+  .hero {
+    padding-top: 4rem;
+  }
+
+  .hero-title {
+    font-size: 8rem; /* Bigger for wide PC screens */
+    line-height: 1.05;
+  }
+
+  .hero p {
+    font-size: 1.15rem; /* Balanced smaller tagline */
+    font-weight: 400;
+    color: #d1d1d1;
+    margin: 0 auto 2.2rem auto;
+    max-width: 720px;
+    line-height: 1.6;
+  }
+
+  .hero .flex {
+    margin-top: 1rem;
+  }
+}
+
+/* 📱 Mobile view */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 3.3rem;
+    line-height: 1.1;
+  }
+
+  .hero-glow-text {
+    text-shadow: 0 0 10px rgba(180, 80, 255, 0.35);
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 90%;
+    padding: 12px 28px;
+  }
+}
+
+/* 💜 Buttons */
+.btn-primary {
+  background: #a855f7;
+  color: white;
+  padding: 14px 38px;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(180, 80, 255, 0.6);
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(180, 80, 255, 0.9);
+}
+
+.btn-outline {
+  border: 1.5px solid rgba(180, 80, 255, 0.6);
+  color: rgba(180, 80, 255, 0.9);
+  padding: 14px 38px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-outline:hover {
+  background: rgba(180, 80, 255, 0.15);
+  color: white;
+}
+
+/* Fade animation */
+.fade-in {
+  animation: fade-in 1.2s ease forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

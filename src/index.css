@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================
+   ⚡ Combined Design System
+   ============================ */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 7%;
+    --primary: 270 85% 50%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 270 90% 70%;
+    --accent-foreground: 0 0% 10%;
+    --border: 0 0% 90%;
+    --muted-foreground: 0 0% 40%;
+    --glass-bg: 0 0% 100%;
+    --glass-border: 270 25% 85%;
+    --hero-gradient-start: 0 0% 100%;
+    --hero-gradient-end: 270 100% 98%;
+    --glow-primary: 270 85% 60%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 240 6% 6%;
+    --foreground: 0 0% 92%;
+    --primary: 270 85% 60%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 270 85% 65%;
+    --accent-foreground: 240 6% 6%;
+    --border: 240 5% 20%;
+    --muted-foreground: 0 0% 70%;
+    --glass-bg: 240 8% 12%;
+    --glass-border: 270 25% 30%;
+    --hero-gradient-start: 240 6% 6%;
+    --hero-gradient-end: 270 35% 15%;
+    --glow-primary: 270 85% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-poppins;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================
+   🌈 Utilities & Animations
+   ============================ */
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 20px hsl(var(--glow-primary) / 0.5),
+      0 0 40px hsl(var(--glow-primary) / 0.3);
+  }
+
+  .glass {
+    background: hsl(var(--glass-bg) / 0.7);
+    backdrop-filter: blur(14px);
+    border: 1px solid hsl(var(--glass-border) / 0.3);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--hero-gradient-start)),
+      hsl(var(--hero-gradient-end))
+    );
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .hover-glow:hover {
+    color: hsl(var(--accent));
+    text-shadow: 0 0 10px hsl(var(--glow-primary) / 0.8),
+      0 0 20px hsl(var(--glow-primary) / 0.5);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3);
+    }
+    to {
+      box-shadow: 0 0 40px hsl(var(--glow-primary) / 0.8),
+        0 0 60px hsl(var(--glow-primary) / 0.4);
+    }
+  }
+
+  /* 🎨 Rounded Button Styles */
+  .btn-primary {
+    @apply px-8 py-3 rounded-full font-semibold bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300 shadow-lg;
+  }
+
+  .btn-outline {
+    @apply px-8 py-3 rounded-full font-semibold border border-purple-400 text-purple-400 hover:bg-purple-600 hover:text-white transition-all duration-300;
+  }
+}
