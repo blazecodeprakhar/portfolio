@@ -1,11 +1,11 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { /* Moon, Sun, */ Menu, X } from "lucide-react"; // 🔒 Commented icons used for theme toggle
-// import { useTheme } from "next-themes"; // 🔒 Temporarily disabled theme support
+import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const { theme, setTheme } = useTheme(); // 🔒 Dark/light mode temporarily disabled
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -29,79 +29,92 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
-        {/* 🌟 Logo (Left Side) */}
-        <a href="#home" className="flex items-center space-x-1 group">
-          <span className="text-2xl font-light text-gray-800 dark:text-gray-200">
-            &gt;
-          </span>
-          <span className="text-2xl font-extrabold text-purple-600 dark:text-purple-400">
-            &lt;
-          </span>
-          <span className="text-xl font-bold ml-1 text-gray-900 dark:text-gray-100 group-hover:text-purple-500 transition-colors">
-            BlazeForge
+      <div
+        className="
+          container mx-auto 
+          px-3 py-3.5
+          md:px-6 md:py-4
+          flex items-center justify-between
+        "
+      >
+        {/* LOGO */}
+        <a href="#home" className="flex items-center group">
+          <span
+            className="
+              text-[21px] md:text-[23px] 
+              font-bold tracking-wide 
+
+              /* PHONE → ALWAYS PURPLE */
+              text-purple-500
+
+              /* DESKTOP → NORMAL COLORS */
+              md:text-gray-900 md:dark:text-gray-100
+
+              /* DESKTOP HOVER */
+              transition-colors md:group-hover:text-purple-500
+            "
+          >
+            prakhar.dev
           </span>
         </a>
 
-        {/* 💻 Desktop Menu (Right-Aligned) */}
+        {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center ml-auto space-x-10">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="relative font-medium text-gray-800 dark:text-gray-200 hover:text-purple-500 transition-colors after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 after:transition-all hover:after:w-full"
+              className="relative font-medium text-gray-800 dark:text-gray-200 hover:text-purple-500 transition-colors
+                after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 
+                after:transition-all hover:after:w-full"
             >
               {link.name}
             </a>
           ))}
-
-          {/* 🌓 Theme Toggle (Commented Out) */}
-          {/*
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-purple-500/10 transition-all"
-            aria-label="Toggle Theme"
-          >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-purple-400" />
-            ) : (
-              <Moon className="h-5 w-5 text-purple-600" />
-            )}
-          </button>
-          */}
         </div>
 
-        {/* 📱 Mobile Menu Button */}
+        {/* MOBILE MENU BUTTON */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-purple-500/10 transition-all"
+          className="md:hidden p-2 rounded-md border border-gray-300 dark:border-gray-600 hover:bg-purple-500/10 transition-all"
           aria-label="Toggle Menu"
         >
-          {mobileMenuOpen ? (
-            <X className="h-5 w-5 text-purple-500" />
-          ) : (
-            <Menu className="h-5 w-5 text-purple-500" />
-          )}
+          <MenuToggleIcon
+            open={mobileMenuOpen}
+            className="h-6 w-6 text-purple-500"
+            duration={400}
+          />
         </button>
       </div>
 
-      {/* 📲 Mobile Dropdown Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden mt-2 mx-4 rounded-xl p-5 backdrop-blur-lg bg-white/80 dark:bg-black/60 border border-gray-200 dark:border-gray-700 shadow-lg animate-fade-in">
-          <div className="flex flex-col space-y-4">
+      {/* MOBILE MENU */}
+      <div
+        className={`md:hidden transition-all duration-300 overflow-hidden ${
+          mobileMenuOpen ? "max-h-96 opacity-100 mt-1" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="mx-3 rounded-xl p-5 backdrop-blur-lg bg-white/85 dark:bg-black/60 border border-gray-200 dark:border-gray-700 shadow-lg">
+          <div className="flex flex-col space-y-4 text-[16px]">
+
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="font-medium text-gray-800 dark:text-gray-200 hover:text-purple-500 transition-colors"
+                className="
+                  font-semibold 
+                  text-white        /* PHONE ALWAYS WHITE */
+                  dark:text-white
+                  transition-none
+                "
               >
                 {link.name}
               </a>
             ))}
+
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

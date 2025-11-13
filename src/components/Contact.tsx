@@ -1,47 +1,14 @@
-import { Github, Linkedin, Instagram, Mail } from "lucide-react";
-import { useEffect, useRef } from "react";
+"use client";
 
-interface SocialLink {
-  name: string;
-  icon: React.ElementType;
-  url: string;
-  glowColor: string;
-  textColor: string;
-}
-
-const socialLinks: SocialLink[] = [
-  {
-    name: "GitHub",
-    icon: Github,
-    url: "https://github.com/blazecodeprakhar",
-    glowColor: "#6e5494", // GitHub purple glow
-    textColor: "#6e5494",
-  },
-  {
-    name: "LinkedIn",
-    icon: Linkedin,
-    url: "https://www.linkedin.com/in/prakhar-yadav-0963s8299/",
-    glowColor: "#0077B5",
-    textColor: "#0077B5",
-  },
-  {
-    name: "Instagram",
-    icon: Instagram,
-    url: "https://www.instagram.com/iitzprakhar/",
-    glowColor: "#E4405F",
-    textColor: "#E4405F",
-  },
-  {
-    name: "Email",
-    icon: Mail,
-    url: "mailto:prakharyadav096@gmail.com",
-    glowColor: "#9b59b6", // Light purple for email
-    textColor: "#9b59b6",
-  },
-];
+import { useEffect, useRef, useState } from "react";
+import { Mail, CheckCircle2, XCircle } from "lucide-react";
 
 const Contact = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [toast, setToast] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -55,84 +22,205 @@ const Contact = () => {
       { threshold: 0.1 }
     );
 
-    const section = sectionRef.current;
-    if (section) observer.observe(section);
-
-    return () => {
-      if (section) observer.unobserve(section);
-    };
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () =>
+      sectionRef.current && observer.unobserve(sectionRef.current);
   }, []);
 
+  // ------------ SUBMIT FUNCTION (AJAX NO REDIRECT) ------------
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      setToast({
+        type: "success",
+        message: "Your message has been sent!",
+      });
+      e.target.reset();
+    } else {
+      setToast({
+        type: "error",
+        message: "Something went wrong. Try again!",
+      });
+    }
+
+    setTimeout(() => setToast(null), 3500);
+  };
+
   return (
-    <section id="contact" className="py-20 md:py-28 bg-background">
-      <div className="container mx-auto px-4 md:px-6">
+    <>
+      {/* ------------------- TOAST (PREMIUM DESIGN) ------------------- */}
+      {toast && (
         <div
-          ref={sectionRef}
-          className="max-w-4xl mx-auto text-center opacity-0"
+          className={`
+            fixed bottom-5 right-5 z-[9999]
+            px-5 py-3 rounded-2xl shadow-xl
+            backdrop-blur-xl border
+            flex items-center gap-3 animate-slide-up
+            ${
+              toast.type === "success"
+                ? "bg-[#BD4FF4]/30 border-[#BD4FF4]/40 text-white"
+                : "bg-red-500/20 border-red-500/40 text-red-300"
+            }
+          `}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Connect with Me
-          </h2>
-          <p className="text-muted-foreground text-lg mb-12">
-            Let's collaborate and create something amazing together
-          </p>
+          {toast.type === "success" ? (
+            <CheckCircle2 className="w-5 h-5" />
+          ) : (
+            <XCircle className="w-5 h-5" />
+          )}
+          <span className="font-medium text-sm">{toast.message}</span>
+        </div>
+      )}
 
-          {/* Social Links */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 justify-items-center">
-            {socialLinks.map((social) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group"
-                >
-                  <div
-                    className="h-28 w-28 flex flex-col items-center justify-center rounded-2xl
-                    bg-[#f3f3f3] dark:bg-[#1c1c1c] text-black dark:text-white
-                    transition-all duration-300 hover:scale-110"
-                    style={{
-                      boxShadow: "0 0 0 transparent",
-                    }}
-                    onMouseEnter={(e) => {
-                      (
-                        e.currentTarget as HTMLElement
-                      ).style.boxShadow = `0 0 25px ${social.glowColor}`;
-                      (e.currentTarget as HTMLElement).style.color =
-                        social.textColor;
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.boxShadow =
-                        "0 0 0 transparent";
-                      (e.currentTarget as HTMLElement).style.color = "";
-                    }}
-                  >
-                    <Icon className="h-8 w-8 mb-2 transition-transform duration-300 group-hover:scale-125" />
-                    <p className="text-sm font-medium">{social.name}</p>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
+      {/* --------------------- CONTACT SECTION --------------------- */}
+      <section
+        id="contact"
+        className="pb-20 md:pb-28 pt-10"
+        style={{ backgroundColor: "#0E0E10" }}
+      >
+        <div className="container mx-auto px-4 md:px-6">
+          <div
+            ref={sectionRef}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start opacity-0"
+          >
 
-          {/* Email Button */}
-          <div className="mt-16 pt-8 border-t border-border/50">
-            <p className="text-muted-foreground mb-4">
-              Ready to start a project?
-            </p>
-            <a
-              href="mailto:prakharyadav096@gmail.com"
-              className="inline-flex items-center space-x-2 px-8 py-4 bg-accent text-accent-foreground rounded-full font-semibold hover:scale-105 transition-transform shadow-lg"
+{/* LEFT SIDE TEXT */}
+<div className="text-white space-y-5">
+
+  <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+    Let’s Get In Touch.
+  </h2>
+
+  <p className="text-white/60 text-lg max-w-md">
+    Or contact me manually at:
+  </p>
+
+  <div className="space-y-1">
+
+    {/* CLICKABLE EMAIL */}
+    <a
+      href="mailto:prakharyadav096@gmail.com"
+      className="text-[#BD4FF4] font-semibold text-lg block hover:underline underline-offset-4 transition"
+    >
+      prakharyadav096@gmail.com
+    </a>
+
+    {/* CLICKABLE PHONE */}
+    <a
+      href="tel:+916390498069"
+      className="text-[#BD4FF4] font-semibold text-lg block hover:underline underline-offset-4 transition"
+    >
+      +91 6390498069
+    </a>
+
+  </div>
+</div>
+
+
+            {/* RIGHT SIDE FORM BOX */}
+            <div
+              className="rounded-3xl p-[2px] shadow-xl"
+              style={{
+                background:
+                  "linear-gradient(135deg, #BD4FF4 0%, transparent 70%)",
+              }}
             >
-              <Mail className="h-5 w-5" />
-              <span>Send me an email</span>
-            </a>
+              <div className="bg-[#0E0E10] rounded-3xl p-8">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* WEB3FORMS KEY */}
+                  <input
+                    type="hidden"
+                    name="access_key"
+                    value="eccf24e4-acfa-411e-939e-685bba8c6131"
+                  />
+
+                  {/* FULL NAME */}
+                  <div className="space-y-1">
+                    <label className="text-white text-sm">Full Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="Enter your full name..."
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
+                    />
+                  </div>
+
+                  {/* EMAIL */}
+                  <div className="space-y-1">
+                    <label className="text-white text-sm">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="Enter your email..."
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
+                    />
+                  </div>
+
+                  {/* PHONE */}
+                  <div className="space-y-1">
+                    <label className="text-white text-sm">Phone Number</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      placeholder="+91 XXXXX-XXXXX"
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
+                    />
+                  </div>
+
+                  {/* MESSAGE */}
+                  <div className="space-y-1">
+                    <label className="text-white text-sm">Message</label>
+                    <textarea
+                      name="message"
+                      required
+                      rows={5}
+                      placeholder="Enter your message..."
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
+                    ></textarea>
+                  </div>
+
+                  {/* CHECKBOX */}
+                  <label className="flex items-center space-x-2 text-white/80 text-sm cursor-pointer">
+                    <input
+                      type="checkbox"
+                      required
+                      className="h-4 w-4 rounded bg-white/10 border border-white/20"
+                    />
+                    <span>
+                      I agree to the{" "}
+                      <span className="text-[#BD4FF4]">Privacy Policy</span>.
+                    </span>
+                  </label>
+
+                  {/* SUBMIT BUTTON */}
+                  <button
+                    type="submit"
+                    className="w-full mt-4 py-3 rounded-full bg-[#BD4FF4] text-white font-semibold hover:bg-[#a43ad8] transition shadow-xl flex items-center justify-center gap-2"
+                  >
+                    <Mail className="h-5 w-5" />
+                    Submit Form
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            {/* END FORM */}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

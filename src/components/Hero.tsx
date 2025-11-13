@@ -92,10 +92,10 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 text-center text-white px-4 animate-fade-in">
-        {/* Responsive BlazeForge text */}
+        {/* Responsive prakhar.dev text */}
         <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold mb-2 sm:mb-4 tracking-tight leading-tight">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-400 drop-shadow-[0_0_25px_rgba(180,80,255,0.4)]">
-            BlazeForge
+            prakhar.dev
           </span>
         </h1>
 

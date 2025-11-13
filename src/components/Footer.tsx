@@ -1,24 +1,125 @@
-import { Heart } from "lucide-react";
+"use client";
+
+import { Github, Linkedin, Instagram, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="py-8 px-4 md:py-12 bg-muted/30 border-t border-border/50 text-center">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-3 text-center">
-          <div className="flex flex-wrap justify-center items-center gap-2 text-sm text-muted-foreground">
-            <span>© 2025</span>
-            <span className="font-bold text-accent">BlazeForge</span>
-            <span>•</span>
-            <span>Crafted with</span>
-            <Heart className="h-4 w-4 text-accent fill-accent animate-pulse" />
-            <span>by</span>
-            <span className="font-semibold text-foreground">Prakhar Yadav</span>
-          </div>
+    <footer className="bg-[#0E0E10] text-white pt-16 pb-10 px-6 border-t border-white/10">
+      <div className="max-w-7xl mx-auto">
 
-          <p className="text-xs text-muted-foreground text-center max-w-xs sm:max-w-none">
-            All rights reserved. Designed and developed with passion.
+        {/* TOP INFO SECTION */}
+        <div className="text-center md:text-left space-y-4 mb-12">
+          <a 
+            href="#home" 
+            className="text-3xl font-bold text-white hover:text-[#BD4FF4] transition-colors duration-300 cursor-pointer"
+          >
+            prakhar.dev
+          </a>
+
+          <p className="text-white/60 max-w-2xl">
+            Your destination for modern web development, portfolio showcases, and 
+            premium digital experiences crafted with precision.
           </p>
         </div>
+
+        {/* GRID SECTION */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+
+          {/* COLUMN 1 */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-white/80">NAVIGATION</h3>
+            <ul className="space-y-2">
+              <li><a href="#home" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Home</a></li>
+              <li><a href="#skills" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Skills</a></li>
+              <li><a href="#projects" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Projects</a></li>
+              <li><a href="#gallery" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Gallery</a></li>
+              <li><a href="#contact" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Contact</a></li>
+            </ul>
+          </div>
+
+          {/* COLUMN 2 */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-white/80">RESOURCES</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Terms of Service</a></li>
+              <li><a href="#" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Support</a></li>
+            </ul>
+          </div>
+
+          {/* COLUMN 3 */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-white/80">PORTFOLIO</h3>
+            <ul className="space-y-2">
+              <li><a href="#projects" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Web Apps</a></li>
+              <li><a href="#skills" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Technologies</a></li>
+              <li><a href="#gallery" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Gallery</a></li>
+            </ul>
+          </div>
+
+          {/* COLUMN 4 — CONTACT + SOCIAL */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-white/80">CONNECT WITH ME</h3>
+
+            {/* SOCIAL ICONS */}
+            <div className="flex items-center gap-3">
+
+              {/* GitHub */}
+              <a
+                href="https://github.com/blazecodeprakhar"
+                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_10px_#fff]"
+              >
+                <Github className="w-5 h-5 transition-colors duration-300 hover:text-white" />
+              </a>
+
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com/in/prakhar-yadav-0963s8299/"
+                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_12px_#0077B5]"
+              >
+                <Linkedin className="w-5 h-5 transition-colors duration-300 hover:text-[#0077B5]" />
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/iitzprakhar/"
+                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_12px_#E4405F]"
+              >
+                <Instagram className="w-5 h-5 transition-colors duration-300 hover:text-[#E4405F]" />
+              </a>
+
+              {/* Email */}
+              <a
+                href="mailto:prakharyadav096@gmail.com"
+                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_12px_#BD4FF4]"
+              >
+                <Mail className="w-5 h-5 transition-colors duration-300 hover:text-[#BD4FF4]" />
+              </a>
+            </div>
+
+            <div className="space-y-1 text-white/70">
+              <a href="mailto:prakharyadav096@gmail.com" className="hover:text-[#BD4FF4] transition-colors block">
+                prakharyadav096@gmail.com
+              </a>
+              <a href="tel:+916390498069" className="hover:text-[#BD4FF4] transition-colors block">
+                +91 63904 98069
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* COPYRIGHT BAR */}
+        <div className="mt-14 pt-6 border-t border-white/10 text-center text-white/50 text-sm">
+          © 2025{" "}
+          <a
+            href="#home"
+            className="text-white hover:text-[#BD4FF4] transition-colors duration-300 font-semibold cursor-pointer"
+          >
+            prakhar.dev
+          </a>{" "}
+          . All Rights Reserved.
+        </div>
+
       </div>
     </footer>
   );

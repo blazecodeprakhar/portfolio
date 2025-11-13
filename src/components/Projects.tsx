@@ -5,12 +5,12 @@ const projects = [
   {
     title: "Territory Clash",
     description:
-      "A fast-paced territory capture game built by BlazeForge. Conquer land, protect your trail, and dominate the map!",
+      "A fast-paced territory capture game built by prakhar.dev. Conquer land, protect your trail, and dominate the map!",
     link: "https://territory-clash.netlify.app/",
     image: "/assets/territory-clash.png", // ✅ banner image
   },
   {
-    title: "BlazeForge Portfolio",
+    title: "prakhar.dev Portfolio",
     description:
       "Old version of my responsive personal portfolio website showcasing my work and skills.",
     link: "https://blazecodeprakhar.github.io/blazeforge/",
