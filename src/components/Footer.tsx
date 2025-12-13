@@ -9,15 +9,15 @@ const Footer = () => {
 
         {/* TOP INFO SECTION */}
         <div className="text-center md:text-left space-y-4 mb-12">
-          <a 
-            href="#home" 
+          <a
+            href="#home"
             className="text-3xl font-bold text-white hover:text-[#BD4FF4] transition-colors duration-300 cursor-pointer"
           >
             prakhar.dev
           </a>
 
           <p className="text-white/60 max-w-2xl">
-            Your destination for modern web development, portfolio showcases, and 
+            Your destination for modern web development, portfolio showcases, and
             premium digital experiences crafted with precision.
           </p>
         </div>
@@ -51,69 +51,101 @@ const Footer = () => {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-white/80">PORTFOLIO</h3>
             <ul className="space-y-2">
-              <li><a href="#projects" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Web Apps</a></li>
+              <li><a href="#projects" className="text-white/60 hover:text-[#BD4FF4] transition-colors ">Web Apps</a></li>
               <li><a href="#skills" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Technologies</a></li>
               <li><a href="#gallery" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Gallery</a></li>
             </ul>
           </div>
 
-          {/* COLUMN 4 — CONTACT + SOCIAL */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-white/80">CONNECT WITH ME</h3>
+          {/* COLUMN 4 — CONNECT WITH ME */}
+          <div className="space-y-5 group">
+            <h3
+              className="text-sm font-semibold text-white/80
+                         transition-all duration-300
+                         group-hover:text-[#BD4FF4]
+                         group-hover:drop-shadow-[0_0_8px_#BD4FF4]"
+            >
+              CONNECT WITH ME
+            </h3>
 
             {/* SOCIAL ICONS */}
             <div className="flex items-center gap-3">
-
-              {/* GitHub */}
               <a
                 href="https://github.com/blazecodeprakhar"
-                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_10px_#fff]"
+                className="p-3 bg-white/10 rounded-full
+                           transition-all duration-300
+                           hover:scale-110
+                           hover:bg-white/20
+                           hover:shadow-[0_0_15px_#ffffff]"
               >
-                <Github className="w-5 h-5 transition-colors duration-300 hover:text-white" />
+                <Github className="w-5 h-5 text-white" />
               </a>
 
-              {/* LinkedIn */}
               <a
                 href="https://www.linkedin.com/in/prakhar-yadav-0963s8299/"
-                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_12px_#0077B5]"
+                className="p-3 bg-white/10 rounded-full
+                           transition-all duration-300
+                           hover:scale-110
+                           hover:bg-white/20
+                           hover:shadow-[0_0_15px_#0077B5]"
               >
-                <Linkedin className="w-5 h-5 transition-colors duration-300 hover:text-[#0077B5]" />
+                <Linkedin className="w-5 h-5 text-[#0077B5]" />
               </a>
 
-              {/* Instagram */}
               <a
                 href="https://www.instagram.com/iitzprakhar/"
-                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_12px_#E4405F]"
+                className="p-3 bg-white/10 rounded-full
+                           transition-all duration-300
+                           hover:scale-110
+                           hover:bg-white/20
+                           hover:shadow-[0_0_15px_#E4405F]"
               >
-                <Instagram className="w-5 h-5 transition-colors duration-300 hover:text-[#E4405F]" />
+                <Instagram className="w-5 h-5 text-[#E4405F]" />
               </a>
 
-              {/* Email */}
               <a
                 href="mailto:prakharyadav096@gmail.com"
-                className="p-3 bg-white/10 rounded-full transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_12px_#BD4FF4]"
+                className="p-3 bg-white/10 rounded-full
+                           transition-all duration-300
+                           hover:scale-110
+                           hover:bg-white/20
+                           hover:shadow-[0_0_15px_#BD4FF4]"
               >
-                <Mail className="w-5 h-5 transition-colors duration-300 hover:text-[#BD4FF4]" />
+                <Mail className="w-5 h-5 text-[#BD4FF4]" />
               </a>
             </div>
 
+            {/* EMAIL & PHONE */}
             <div className="space-y-1 text-white/70">
-              <a href="mailto:prakharyadav096@gmail.com" className="hover:text-[#BD4FF4] transition-colors block">
+              <a
+                href="mailto:prakharyadav096@gmail.com"
+                className="block transition-all duration-300
+                           hover:text-[#BD4FF4]
+                           hover:underline
+                           hover:drop-shadow-[0_0_6px_#BD4FF4]"
+              >
                 prakharyadav096@gmail.com
               </a>
-              <a href="tel:+916390498069" className="hover:text-[#BD4FF4] transition-colors block">
+
+              <a
+                href="tel:+916390498069"
+                className="block transition-all duration-300
+                           hover:text-[#BD4FF4]
+                           hover:underline
+                           hover:drop-shadow-[0_0_6px_#BD4FF4]"
+              >
                 +91 63904 98069
               </a>
             </div>
           </div>
         </div>
 
-        {/* COPYRIGHT BAR */}
+        {/* COPYRIGHT */}
         <div className="mt-14 pt-6 border-t border-white/10 text-center text-white/50 text-sm">
           © 2025{" "}
           <a
             href="#home"
-            className="text-white hover:text-[#BD4FF4] transition-colors duration-300 font-semibold cursor-pointer"
+            className="text-white hover:text-[#BD4FF4] transition-colors font-semibold"
           >
             prakhar.dev
           </a>{" "}

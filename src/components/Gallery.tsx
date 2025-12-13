@@ -1,7 +1,8 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
-// Updated photo list
 const photos = [
   {
     id: 1,
@@ -13,102 +14,123 @@ const photos = [
     id: 2,
     title: "Cosmic Revelation",
     description:
-      "The celestial tapestry is torn open, letting the bright light of distant worlds spill through the heavy clouds.",
+      "The celestial tapestry is torn open, letting distant worlds spill through heavy clouds.",
     image: "assets/IMG_20240506_230425.jpg",
   },
   {
     id: 3,
     title: "Galactic Gems",
     description:
-      "A perfect visual guide to a section of the night sky, showcasing Betelgeuse, Orion's Belt, and Venus in one frame.",
+      "A visual guide of the night sky showing Betelgeuse, Orion’s Belt, and Venus.",
     image: "assets/IMG_20240508_120453.jpg",
   },
   {
     id: 4,
     title: "Chasing the Horizon",
     description:
-      "Pushing ahead into the soft light of the fading day, leaving a streak of motion blur behind.",
+      "Moving forward into fading light, leaving motion and memory behind.",
     image: "assets/IMG_20240507_224945.jpg",
   },
   {
     id: 5,
     title: "Sunset Signal",
     description:
-      "The technological reach of man rises to meet the stunning, untamed beauty of the twilight sky.",
+      "Technology rising against the raw beauty of the twilight sky.",
     image: "assets/IMG_20240601_145021.jpg",
   },
   {
     id: 6,
-    title: "Nature's Window",
+    title: "Nature’s Window",
     description:
-      "A peaceful view where the vibrant green earth meets the dramatic, soft glow of the evening sky.",
+      "Where green earth meets a dramatic evening sky.",
     image: "assets/IMG_20240621_224706.jpg",
   },
 ];
 
 const Gallery = () => {
-  const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
+  const [active, setActive] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const items = entry.target.querySelectorAll(".gallery-item");
-            items.forEach((item, index) => {
-              setTimeout(() => {
-                item.classList.add("animate-fade-in");
-              }, index * 100);
-            });
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const items = entry.target.querySelectorAll(".gallery-item");
+          items.forEach((el, i) =>
+            setTimeout(() => el.classList.add("animate-fade-in"), i * 120)
+          );
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedPhoto !== null ? "hidden" : "unset";
-  }, [selectedPhoto]);
+    document.body.style.overflow = active !== null ? "hidden" : "auto";
+  }, [active]);
 
   return (
-    <section id="gallery" className="py-20 md:py-32 bg-muted/20">
+<section
+  id="gallery"
+  className="pt-12 md:pt-16 pb-20 md:pb-24 bg-gradient-to-b from-background to-muted/30"
+>
+
       <div className="container mx-auto px-4 md:px-6">
         <div ref={sectionRef}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+          {/* Heading */}
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-3">
             Photography
           </h2>
           <p className="text-muted-foreground text-center mb-16">
             A glimpse into my creative vision
           </p>
 
-          {/* Gallery Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {photos.map((photo, index) => (
               <div
                 key={photo.id}
-                className="gallery-item opacity-0 group cursor-pointer"
-                onClick={() => setSelectedPhoto(index)}
+                className="gallery-item opacity-0 cursor-pointer group"
+                onClick={() => setActive(index)}
               >
-                <div className="relative aspect-square rounded-2xl overflow-hidden glass shadow-lg">
+                <div
+                  className="
+                    relative aspect-square rounded-2xl overflow-hidden
+                    bg-white/5 backdrop-blur-xl
+                    border border-white/10
+                    shadow-[0_20px_60px_rgba(0,0,0,0.45)]
+                  "
+                >
                   <img
                     src={photo.image}
                     alt={photo.title}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                    className="
+                      w-full h-full object-cover
+                      transition-transform duration-700
+                      group-hover:scale-110
+                    "
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+
+                  {/* Overlay */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-t from-black/90 via-black/40 to-transparent
+                      opacity-0 group-hover:opacity-100
+                      transition-opacity duration-500
+                      flex items-end p-6
+                    "
+                  >
                     <div>
-                      <p className="text-white font-bold text-xl mb-1">
+                      <h3 className="text-white font-bold text-lg">
                         {photo.title}
+                      </h3>
+                      <p className="text-white/70 text-sm">
+                        Click to view
                       </p>
-                      <p className="text-white/80 text-sm">Click to view</p>
                     </div>
                   </div>
                 </div>
@@ -118,35 +140,47 @@ const Gallery = () => {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      {selectedPhoto !== null && (
+      {/* Lightbox */}
+      {active !== null && (
         <div
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setSelectedPhoto(null)}
+          className="
+            fixed inset-0 z-50
+            bg-black/95
+            flex items-center justify-center
+            px-4 py-6
+          "
+          onClick={() => setActive(null)}
         >
           <button
-            className="absolute top-4 right-4 p-2 rounded-full glass hover:bg-accent/20 transition-colors"
-            onClick={() => setSelectedPhoto(null)}
+            className="
+              absolute top-5 right-5
+              p-2 rounded-full
+              bg-white/10 hover:bg-white/20
+              transition
+            "
+            onClick={() => setActive(null)}
           >
-            <X className="h-6 w-6 text-white" />
+            <X className="w-6 h-6 text-white" />
           </button>
 
           <div
-            className="max-w-4xl w-full text-center"
+            className="max-w-5xl w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="aspect-video rounded-2xl overflow-hidden glass mb-6 flex items-center justify-center">
+            <div className="rounded-2xl overflow-hidden mb-6">
               <img
-                src={photos[selectedPhoto].image}
-                alt={photos[selectedPhoto].title}
-                className="object-contain w-full h-full"
+                src={photos[active].image}
+                alt={photos[active].title}
+                className="w-full h-[60vh] object-contain"
               />
             </div>
 
-            <h3 className="text-2xl font-bold text-white mb-2">
-              {photos[selectedPhoto].title}
+            <h3 className="text-2xl font-bold text-white mb-2 text-center">
+              {photos[active].title}
             </h3>
-            <p className="text-gray-300">{photos[selectedPhoto].description}</p>
+            <p className="text-gray-300 text-center max-w-2xl mx-auto">
+              {photos[active].description}
+            </p>
           </div>
         </div>
       )}

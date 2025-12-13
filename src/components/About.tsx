@@ -24,7 +24,10 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="py-20 md:py-32 bg-background">
+<section
+  id="about"
+  className="pt-14 md:pt-20 pb-14 md:pb-18 bg-background"
+>
       <div className="container mx-auto px-4 md:px-6">
         <div ref={sectionRef} className="max-w-5xl mx-auto opacity-0">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
@@ -53,24 +56,18 @@ const About = () => {
                   </span>{" "}
                   – a developer who loves turning ideas into digital reality.
                 </p>
+
                 <p>
-                  My focus is on creating{" "}
-                  <span className="text-foreground font-semibold">
-                    fast, secure, and aesthetic
-                  </span>{" "}
-                  web experiences powered by modern technologies. As a{" "}
-                  <span className="text-foreground font-semibold">
-                    Computer Science Engineering student
-                  </span>{" "}
-                  with a passion for cybersecurity and ethical hacking, I'm
-                  constantly exploring new tech horizons.
+                  My focus is on creating fast, secure, and aesthetic web
+                  experiences powered by modern technologies. As a Computer
+                  Science Engineering student with a passion for cybersecurity
+                  and ethical hacking, I'm constantly exploring new tech
+                  horizons.
                 </p>
+
                 <p>
-                  Beyond code, my{" "}
-                  <span className="text-foreground font-semibold">
-                    photography
-                  </span>{" "}
-                  inspires me to design with emotion and creativity.
+                  Beyond code, my photography inspires me to design with emotion
+                  and creativity.
                 </p>
               </div>
 

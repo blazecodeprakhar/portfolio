@@ -46,7 +46,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-poppins;
+    @apply bg-background text-foreground font-sans;
   }
 
   html {
@@ -120,5 +120,77 @@
 
   .btn-outline {
     @apply px-8 py-3 rounded-full font-semibold border border-purple-400 text-purple-400 hover:bg-purple-600 hover:text-white transition-all duration-300;
+  }
+}
+
+/* ========== PREMIUM SNAKE BORDER ========== */
+
+.snake-border {
+  position: relative;
+  padding: 3px; /* thicker border */
+  border-radius: 1.75rem;
+  overflow: hidden;
+}
+
+/* THE SNAKE */
+.snake-border::before {
+  content: "";
+  position: absolute;
+  inset: -150%; /* allows smooth rotation */
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 30deg,
+
+    /* --- LONG PURPLE SNAKE --- */
+    #BD4FF4 60deg,
+    #BD4FF4 140deg,
+
+    /* fade tail */
+    rgba(189, 79, 244, 0.6) 170deg,
+    rgba(189, 79, 244, 0.25) 200deg,
+
+    transparent 240deg,
+    transparent 360deg
+  );
+
+  animation: snake-spin 10.5s linear infinite;
+
+  /* BIG GLOW */
+filter:
+  drop-shadow(0 0 14px rgba(189, 79, 244, 1))
+  drop-shadow(0 0 30px rgba(189, 79, 244, 0.85))
+  drop-shadow(0 0 55px rgba(189, 79, 244, 0.6))
+  drop-shadow(0 0 90px rgba(189, 79, 244, 0.35));
+
+}
+
+/* INNER CONTENT */
+.snake-inner {
+  position: relative;
+  z-index: 2;
+  border-radius: 1.6rem;
+}
+
+/* ROTATION */
+@keyframes snake-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 640px) {
+  .snake-border {
+    padding: 2.5px;
+  }
+
+  .snake-border::before {
+    filter:
+      drop-shadow(0 0 8px rgba(189, 79, 244, 0.8))
+      drop-shadow(0 0 18px rgba(189, 79, 244, 0.5));
   }
 }

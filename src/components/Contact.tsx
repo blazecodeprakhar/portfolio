@@ -5,6 +5,8 @@ import { Mail, CheckCircle2, XCircle } from "lucide-react";
 
 const Contact = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const [toast, setToast] = useState<{
     type: "success" | "error";
     message: string;
@@ -12,60 +14,75 @@ const Contact = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in");
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-fade-in");
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () =>
-      sectionRef.current && observer.unobserve(sectionRef.current);
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, []);
 
-  // ------------ SUBMIT FUNCTION (AJAX NO REDIRECT) ------------
-  const handleSubmit = async (e: any) => {
+  // ---------------- SUBMIT ----------------
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-    const res = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData,
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      setToast({
-        type: "success",
-        message: "Your message has been sent!",
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
       });
-      e.target.reset();
-    } else {
-      setToast({
-        type: "error",
-        message: "Something went wrong. Try again!",
-      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setToast({ type: "success", message: "Your message has been sent!" });
+        form.reset();
+      } else {
+        setToast({ type: "error", message: "Something went wrong. Try again!" });
+      }
+    } catch {
+      setToast({ type: "error", message: "Network error. Please try again!" });
     }
 
-    setTimeout(() => setToast(null), 3500);
+    timeoutRef.current = setTimeout(() => setToast(null), 3000);
   };
+
+  // 🔥 Common input style (focus = purple border)
+  const inputStyle = `
+    w-full px-4 py-3 rounded-xl
+    bg-black/40
+    border border-white/10
+    text-white placeholder-white/40
+    outline-none
+    focus:border-[#BD4FF4]
+    focus:ring-0
+    transition-colors duration-200
+  `;
 
   return (
     <>
-      {/* ------------------- TOAST (PREMIUM DESIGN) ------------------- */}
+      {/* ---------------- TOAST ---------------- */}
       {toast && (
         <div
           className={`
-            fixed bottom-5 right-5 z-[9999]
-            px-5 py-3 rounded-2xl shadow-xl
+            fixed z-[9999]
+            left-1/2 -translate-x-1/2 bottom-5
+            md:left-auto md:translate-x-0 md:right-5
+            px-5 py-3 rounded-2xl
             backdrop-blur-xl border
             flex items-center gap-3 animate-slide-up
+            max-w-[90vw]
             ${
               toast.type === "success"
                 ? "bg-[#BD4FF4]/30 border-[#BD4FF4]/40 text-white"
@@ -74,140 +91,105 @@ const Contact = () => {
           `}
         >
           {toast.type === "success" ? (
-            <CheckCircle2 className="w-5 h-5" />
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
           ) : (
-            <XCircle className="w-5 h-5" />
+            <XCircle className="w-5 h-5 shrink-0" />
           )}
-          <span className="font-medium text-sm">{toast.message}</span>
+          <span className="text-sm font-medium break-words">
+            {toast.message}
+          </span>
         </div>
       )}
 
-      {/* --------------------- CONTACT SECTION --------------------- */}
+      {/* ---------------- CONTACT SECTION ---------------- */}
       <section
         id="contact"
-        className="pb-20 md:pb-28 pt-10"
+        className="pt-16 md:pt-20 pb-20 md:pb-24"
         style={{ backgroundColor: "#0E0E10" }}
       >
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <div
             ref={sectionRef}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start opacity-0"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 items-start opacity-0"
           >
+            {/* LEFT CONTENT */}
+            <div className="text-white space-y-6">
+              <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+                Let’s Get In Touch.
+              </h2>
 
-{/* LEFT SIDE TEXT */}
-<div className="text-white space-y-5">
+              <p className="text-white/60 text-lg max-w-md">
+                Have a project in mind or just want to say hello?
+                You can also reach me directly:
+              </p>
 
-  <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-    Let’s Get In Touch.
-  </h2>
+              <div className="space-y-2 pt-2">
+                <a
+                  href="mailto:prakharyadav096@gmail.com"
+                  className="block text-[#BD4FF4] font-semibold text-lg hover:underline"
+                >
+                  prakharyadav096@gmail.com
+                </a>
 
-  <p className="text-white/60 text-lg max-w-md">
-    Or contact me manually at:
-  </p>
+                <a
+                  href="tel:+916390498069"
+                  className="block text-[#BD4FF4] font-semibold text-lg hover:underline"
+                >
+                  +91 6390498069
+                </a>
+              </div>
+            </div>
 
-  <div className="space-y-1">
-
-    {/* CLICKABLE EMAIL */}
-    <a
-      href="mailto:prakharyadav096@gmail.com"
-      className="text-[#BD4FF4] font-semibold text-lg block hover:underline underline-offset-4 transition"
-    >
-      prakharyadav096@gmail.com
-    </a>
-
-    {/* CLICKABLE PHONE */}
-    <a
-      href="tel:+916390498069"
-      className="text-[#BD4FF4] font-semibold text-lg block hover:underline underline-offset-4 transition"
-    >
-      +91 6390498069
-    </a>
-
-  </div>
-</div>
-
-
-            {/* RIGHT SIDE FORM BOX */}
-            <div
-              className="rounded-3xl p-[2px] shadow-xl"
-              style={{
-                background:
-                  "linear-gradient(135deg, #BD4FF4 0%, transparent 70%)",
-              }}
-            >
-              <div className="bg-[#0E0E10] rounded-3xl p-8">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* WEB3FORMS KEY */}
+            {/* RIGHT FORM */}
+            <div className="snake-border rounded-3xl w-full max-w-lg mx-auto lg:max-w-none">
+              <div className="snake-inner bg-[#0E0E10] rounded-3xl p-6 sm:p-7 md:p-8 shadow-2xl">
+                <form onSubmit={handleSubmit} className="space-y-5">
                   <input
                     type="hidden"
                     name="access_key"
                     value="eccf24e4-acfa-411e-939e-685bba8c6131"
                   />
 
-                  {/* FULL NAME */}
-                  <div className="space-y-1">
-                    <label className="text-white text-sm">Full Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      placeholder="Enter your full name..."
-                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="Full Name"
+                    className={inputStyle}
+                  />
 
-                  {/* EMAIL */}
-                  <div className="space-y-1">
-                    <label className="text-white text-sm">Email Address</label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="Enter your email..."
-                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
-                    />
-                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="Email Address"
+                    className={inputStyle}
+                  />
 
-                  {/* PHONE */}
-                  <div className="space-y-1">
-                    <label className="text-white text-sm">Phone Number</label>
-                    <input
-                      type="text"
-                      name="phone"
-                      placeholder="+91 XXXXX-XXXXX"
-                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    name="phone"
+                    placeholder="Phone Number"
+                    className={inputStyle}
+                  />
 
-                  {/* MESSAGE */}
-                  <div className="space-y-1">
-                    <label className="text-white text-sm">Message</label>
-                    <textarea
-                      name="message"
-                      required
-                      rows={5}
-                      placeholder="Enter your message..."
-                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 outline-none focus:border-[#BD4FF4] transition"
-                    ></textarea>
-                  </div>
+                  <textarea
+                    name="message"
+                    required
+                    rows={4}
+                    placeholder="Message"
+                    className={`${inputStyle} resize-none`}
+                  />
 
-                  {/* CHECKBOX */}
-                  <label className="flex items-center space-x-2 text-white/80 text-sm cursor-pointer">
-                    <input
-                      type="checkbox"
-                      required
-                      className="h-4 w-4 rounded bg-white/10 border border-white/20"
-                    />
-                    <span>
-                      I agree to the{" "}
-                      <span className="text-[#BD4FF4]">Privacy Policy</span>.
-                    </span>
+                  <label className="flex items-center gap-2 text-sm text-white/80">
+                    <input type="checkbox" required className="h-4 w-4" />
+                    I agree to the{" "}
+                    <span className="text-[#BD4FF4]">Privacy Policy</span>
                   </label>
 
-                  {/* SUBMIT BUTTON */}
                   <button
                     type="submit"
-                    className="w-full mt-4 py-3 rounded-full bg-[#BD4FF4] text-white font-semibold hover:bg-[#a43ad8] transition shadow-xl flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded-full bg-[#BD4FF4] text-white font-semibold flex items-center justify-center gap-2 hover:bg-[#a43ad8] transition"
                   >
                     <Mail className="h-5 w-5" />
                     Submit Form
@@ -215,7 +197,6 @@ const Contact = () => {
                 </form>
               </div>
             </div>
-
             {/* END FORM */}
           </div>
         </div>

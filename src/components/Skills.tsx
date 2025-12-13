@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { Code2, Server, Palette, Lightbulb, Video, ImageIcon } from "lucide-react";
 
@@ -8,9 +10,9 @@ interface Skill {
 }
 
 const skills: Skill[] = [
-  { name: "Web Development", percentage: 60, icon: Code2 },
+  { name: "Web Development", percentage: 75, icon: Code2 },
   { name: "Server Management", percentage: 50, icon: Server },
-  { name: "UI/UX Design", percentage: 60, icon: Palette },
+  { name: "UI/UX Design", percentage: 80, icon: Palette },
   { name: "Problem Solving", percentage: 60, icon: Lightbulb },
   { name: "Video Editing (Premiere Pro)", percentage: 85, icon: Video },
   { name: "Photo Editing (Photoshop)", percentage: 90, icon: ImageIcon },
@@ -19,69 +21,93 @@ const skills: Skill[] = [
 const Skills = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [animated, setAnimated] = useState(false);
-  const [skillValues, setSkillValues] = useState<number[]>(skills.map(() => 0));
+  const [values, setValues] = useState<number[]>(skills.map(() => 0));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !animated) {
-            setAnimated(true);
-            
-            // Animate each skill
-            skills.forEach((skill, index) => {
-              let currentValue = 0;
-              const increment = skill.percentage / 60; // 60 frames for ~1 second at 60fps
-              
-              const timer = setInterval(() => {
-                currentValue += increment;
-                if (currentValue >= skill.percentage) {
-                  currentValue = skill.percentage;
-                  clearInterval(timer);
-                }
-                
-                setSkillValues((prev) => {
-                  const newValues = [...prev];
-                  newValues[index] = Math.round(currentValue);
-                  return newValues;
-                });
-              }, 25);
-            });
-          }
-        });
+        if (entries[0].isIntersecting && !animated) {
+          setAnimated(true);
+
+          skills.forEach((skill, i) => {
+            let current = 0;
+            const step = skill.percentage / 50;
+
+            const timer = setInterval(() => {
+              current += step;
+              if (current >= skill.percentage) {
+                current = skill.percentage;
+                clearInterval(timer);
+              }
+
+              setValues((prev) => {
+                const copy = [...prev];
+                copy[i] = Math.round(current);
+                return copy;
+              });
+            }, 20);
+          });
+        }
       },
-      { threshold: 0.2 }
+      { threshold: 0.25 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, [animated]);
 
   return (
-    <section id="skills" className="py-20 md:py-32 bg-muted/20">
+<section
+  id="skills"
+  className="pt-20 md:pt-18 pb-14 md:pb-18 bg-gradient-to-b from-background to-muted/30"
+>
+
       <div className="container mx-auto px-4 md:px-6">
         <div ref={sectionRef}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">Skills</h2>
-          
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+            Skills
+          </h2>
+
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             {skills.map((skill, index) => {
               const Icon = skill.icon;
+
               return (
-                <div key={skill.name} className="glass rounded-2xl p-6 hover:scale-[1.02] transition-transform">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-2 bg-accent/10 rounded-lg">
-                      <Icon className="h-6 w-6 text-accent" />
+                <div
+                  key={skill.name}
+                  className="
+                    relative rounded-2xl p-6
+                    bg-white/5 backdrop-blur-xl
+                    border border-white/10
+                    shadow-[0_0_40px_rgba(0,0,0,0.3)]
+                    hover:scale-[1.02]
+                    transition-all duration-300
+                  "
+                >
+                  {/* Header */}
+                  <div className="flex items-center gap-4 mb-5">
+                    <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-purple-500/10">
+                      <Icon className="w-6 h-6 text-purple-400" />
                     </div>
-                    <span className="text-lg font-semibold text-foreground flex-1">{skill.name}</span>
-                    <span className="text-2xl font-bold text-accent">{skillValues[index]}%</span>
+
+                    <h3 className="text-lg font-semibold flex-1">
+                      {skill.name}
+                    </h3>
+
+                    <span className="text-xl font-bold text-purple-400">
+                      {values[index]}%
+                    </span>
                   </div>
-                  <div className="h-2.5 bg-muted rounded-full overflow-hidden">
+
+                  {/* Progress bar */}
+                  <div className="h-2.5 w-full bg-white/10 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-accent to-accent/70 rounded-full transition-all duration-1000 ease-out shadow-lg"
-                      style={{ width: `${skillValues[index]}%` }}
+                      className="
+                        h-full rounded-full
+                        bg-gradient-to-r from-purple-500 to-purple-400
+                        transition-all duration-700 ease-out
+                      "
+                      style={{ width: `${values[index]}%` }}
                     />
                   </div>
                 </div>
