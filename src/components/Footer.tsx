@@ -51,7 +51,7 @@ const Footer = () => {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-white/80">PORTFOLIO</h3>
             <ul className="space-y-2">
-              <li><a href="#projects" className="text-white/60 hover:text-[#BD4FF4] transition-colors ">Web Apps</a></li>
+              <li><a href="#projects" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Web Apps</a></li>
               <li><a href="#skills" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Technologies</a></li>
               <li><a href="#gallery" className="text-white/60 hover:text-[#BD4FF4] transition-colors">Gallery</a></li>
             </ul>
@@ -72,6 +72,8 @@ const Footer = () => {
             <div className="flex items-center gap-3">
               <a
                 href="https://github.com/blazecodeprakhar"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-3 bg-white/10 rounded-full
                            transition-all duration-300
                            hover:scale-110
@@ -83,6 +85,8 @@ const Footer = () => {
 
               <a
                 href="https://www.linkedin.com/in/prakhar-yadav-0963s8299/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-3 bg-white/10 rounded-full
                            transition-all duration-300
                            hover:scale-110
@@ -94,6 +98,8 @@ const Footer = () => {
 
               <a
                 href="https://www.instagram.com/iitzprakhar/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-3 bg-white/10 rounded-full
                            transition-all duration-300
                            hover:scale-110
@@ -105,6 +111,8 @@ const Footer = () => {
 
               <a
                 href="mailto:prakharyadav096@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-3 bg-white/10 rounded-full
                            transition-all duration-300
                            hover:scale-110
@@ -119,6 +127,8 @@ const Footer = () => {
             <div className="space-y-1 text-white/70">
               <a
                 href="mailto:prakharyadav096@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block transition-all duration-300
                            hover:text-[#BD4FF4]
                            hover:underline
@@ -129,6 +139,8 @@ const Footer = () => {
 
               <a
                 href="tel:+916390498069"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block transition-all duration-300
                            hover:text-[#BD4FF4]
                            hover:underline
@@ -144,12 +156,14 @@ const Footer = () => {
         <div className="mt-14 pt-6 border-t border-white/10 text-center text-white/50 text-sm">
           © 2025{" "}
           <a
-            href="#home"
+            href="https://blazecodeprakhar.github.io/blazeforge/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-white hover:text-[#BD4FF4] transition-colors font-semibold"
           >
             prakhar.dev
           </a>{" "}
-          . All Rights Reserved.
+          All Rights Reserved.
         </div>
 
       </div>

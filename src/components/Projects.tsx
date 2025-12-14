@@ -14,7 +14,7 @@ const projects = [
     title: "Territory Clash",
     description:
       "A fast-paced territory capture game built by prakhar.dev. Conquer land, protect your trail, and dominate the map!",
-    link: "https://territory-clash.netlify.app/",
+    link: "https://territory-clash-v2.netlify.app/",
     image:
       "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2070&auto=format&fit=crop",
   },
