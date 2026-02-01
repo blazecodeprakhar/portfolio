@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Code2, Server, Palette, Lightbulb, Video, ImageIcon } from "lucide-react";
+import { Code2, Server, Palette, Database, Sparkles, Wrench, Video, ImageIcon } from "lucide-react";
 
 interface Skill {
   name: string;
@@ -10,10 +10,12 @@ interface Skill {
 }
 
 const skills: Skill[] = [
-  { name: "Web Development", percentage: 75, icon: Code2 },
-  { name: "Server Management", percentage: 50, icon: Server },
-  { name: "UI/UX Design", percentage: 80, icon: Palette },
-  { name: "Problem Solving", percentage: 60, icon: Lightbulb },
+  { name: "Full-Stack Web Development", percentage: 80, icon: Code2 },
+  { name: "Backend & Server Architecture", percentage: 75, icon: Server },
+  { name: "Database Engineering", percentage: 70, icon: Database },
+  { name: "UI / UX Engineering", percentage: 75, icon: Palette },
+  { name: "AI-Assisted Development", percentage: 65, icon: Sparkles },
+  { name: "Modern Tooling & Workflow", percentage: 70, icon: Wrench },
   { name: "Video Editing (Premiere Pro)", percentage: 85, icon: Video },
   { name: "Photo Editing (Photoshop)", percentage: 90, icon: ImageIcon },
 ];
@@ -57,10 +59,10 @@ const Skills = () => {
   }, [animated]);
 
   return (
-<section
-  id="skills"
-  className="pt-20 md:pt-18 pb-14 md:pb-18 bg-gradient-to-b from-background to-muted/30"
->
+    <section
+      id="skills"
+      className="pt-20 md:pt-18 pb-14 md:pb-18 bg-gradient-to-b from-background to-muted/30"
+    >
 
       <div className="container mx-auto px-4 md:px-6">
         <div ref={sectionRef}>

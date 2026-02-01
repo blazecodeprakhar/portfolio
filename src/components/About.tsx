@@ -24,10 +24,10 @@ const About = () => {
   }, []);
 
   return (
-<section
-  id="about"
-  className="pt-14 md:pt-20 pb-14 md:pb-18 bg-background"
->
+    <section
+      id="about"
+      className="pt-14 md:pt-20 pb-14 md:pb-18 bg-background"
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div ref={sectionRef} className="max-w-5xl mx-auto opacity-0">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
@@ -73,7 +73,8 @@ const About = () => {
 
               <div className="pt-4">
                 <a
-                  href="#contact"
+                  href="/Prakhar_Resume.pdf"
+                  download="Prakhar_Resume.pdf"
                   className="inline-flex items-center space-x-2 px-6 py-3 glass rounded-lg font-semibold hover:bg-accent/10 transition-all border border-accent/30"
                 >
                   <span>Download Resume</span>

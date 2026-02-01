@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -21,13 +24,27 @@ const Navbar = () => {
     { name: "Contact", href: "#contact" },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    if (location.pathname === "/") {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", href);
+      }
+    } else {
+      navigate("/" + href);
+    }
+  };
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "backdrop-blur-lg bg-white/70 dark:bg-black/50 shadow-md"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+        ? "backdrop-blur-lg bg-white/70 dark:bg-black/50 shadow-md"
+        : "bg-transparent"
+        }`}
     >
       <div
         className="
@@ -38,7 +55,11 @@ const Navbar = () => {
         "
       >
         {/* LOGO */}
-        <a href="#home" className="flex items-center group">
+        <a
+          href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
+          className="flex items-center group cursor-pointer"
+        >
           <span
             className="
               text-[21px] md:text-[23px] 
@@ -64,9 +85,10 @@ const Navbar = () => {
             <a
               key={link.name}
               href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               className="relative font-medium text-gray-800 dark:text-gray-200 hover:text-purple-500 transition-colors
                 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 
-                after:transition-all hover:after:w-full"
+                after:transition-all hover:after:w-full cursor-pointer"
             >
               {link.name}
             </a>
@@ -89,9 +111,8 @@ const Navbar = () => {
 
       {/* MOBILE MENU */}
       <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
-          mobileMenuOpen ? "max-h-96 opacity-100 mt-1" : "max-h-0 opacity-0"
-        }`}
+        className={`md:hidden transition-all duration-300 overflow-hidden ${mobileMenuOpen ? "max-h-96 opacity-100 mt-1" : "max-h-0 opacity-0"
+          }`}
       >
         <div className="mx-3 rounded-xl p-5 backdrop-blur-lg bg-white/85 dark:bg-black/60 border border-gray-200 dark:border-gray-700 shadow-lg">
           <div className="flex flex-col space-y-4 text-[16px]">
@@ -100,12 +121,13 @@ const Navbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="
                   font-semibold 
                   text-white        /* PHONE ALWAYS WHITE */
                   dark:text-white
                   transition-none
+                  cursor-pointer
                 "
               >
                 {link.name}
