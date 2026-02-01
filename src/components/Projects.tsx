@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ProjectCard } from "@/components/ui/project-card";
 import { ArrowRight } from "lucide-react";
+import { useImagePreloader } from "@/hooks/use-image-preloader";
 
 const allProjects = [
   {
@@ -68,6 +69,9 @@ const Projects = () => {
   const [startIndex, setStartIndex] = useState(0);
   const [visibleProjects, setVisibleProjects] = useState(allProjects.slice(0, 3));
   const [isAnimating, setIsAnimating] = useState(false);
+
+  // Preload all project images for smooth transitions
+  useImagePreloader(allProjects.map((p) => p.image));
 
   // Auto-rotate projects every 5 seconds
   useEffect(() => {
