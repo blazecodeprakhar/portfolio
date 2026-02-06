@@ -20,9 +20,8 @@ const fullStackProjects = [
     {
         title: "RenTelMe",
         description: "Developed a full-stack premium rental web app featuring secure property listings, community insights, and a modern responsive UI. (Work in Progress)",
-        link: "#",
+        link: "https://rentelme.netlify.app",
         image: "/assets/rentelme.png",
-        linkText: "SOON",
     },
 ];
 

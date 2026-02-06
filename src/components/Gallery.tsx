@@ -47,6 +47,65 @@ const photos = [
   },
 ];
 
+const GalleryItem = ({
+  photo,
+  index,
+  onClick,
+}: {
+  photo: (typeof photos)[0];
+  index: number;
+  onClick: () => void;
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div
+      className="gallery-item opacity-0 cursor-pointer group"
+      onClick={onClick}
+    >
+      <div
+        className="
+          relative aspect-square rounded-2xl overflow-hidden
+          bg-muted/20
+          border border-white/10
+          shadow-lg transition-all duration-300
+          hover:shadow-2xl
+        "
+      >
+        <img
+          src={photo.image}
+          alt={photo.title}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setIsLoaded(true)}
+          className={`
+            w-full h-full object-cover
+            transition-all duration-700
+            group-hover:scale-110
+            ${isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"}
+          `}
+        />
+
+        {/* Overlay */}
+        <div
+          className="
+            absolute inset-0
+            bg-gradient-to-t from-black/90 via-black/40 to-transparent
+            opacity-0 group-hover:opacity-100
+            transition-opacity duration-500
+            flex items-end p-6
+          "
+        >
+          <div>
+            <h3 className="text-white font-bold text-lg">{photo.title}</h3>
+            <p className="text-white/70 text-sm">Click to view</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Gallery = () => {
   const [active, setActive] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -73,11 +132,10 @@ const Gallery = () => {
   }, [active]);
 
   return (
-<section
-  id="gallery"
-  className="pt-12 md:pt-16 pb-20 md:pb-24 bg-gradient-to-b from-background to-muted/30"
->
-
+    <section
+      id="gallery"
+      className="pt-12 md:pt-16 pb-20 md:pb-24 bg-gradient-to-b from-background to-muted/30"
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div ref={sectionRef}>
           {/* Heading */}
@@ -91,50 +149,12 @@ const Gallery = () => {
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {photos.map((photo, index) => (
-              <div
+              <GalleryItem
                 key={photo.id}
-                className="gallery-item opacity-0 cursor-pointer group"
+                photo={photo}
+                index={index}
                 onClick={() => setActive(index)}
-              >
-                <div
-                  className="
-                    relative aspect-square rounded-2xl overflow-hidden
-                    bg-white/5 backdrop-blur-xl
-                    border border-white/10
-                    shadow-[0_20px_60px_rgba(0,0,0,0.45)]
-                  "
-                >
-                  <img
-                    src={photo.image}
-                    alt={photo.title}
-                    className="
-                      w-full h-full object-cover
-                      transition-transform duration-700
-                      group-hover:scale-110
-                    "
-                  />
-
-                  {/* Overlay */}
-                  <div
-                    className="
-                      absolute inset-0
-                      bg-gradient-to-t from-black/90 via-black/40 to-transparent
-                      opacity-0 group-hover:opacity-100
-                      transition-opacity duration-500
-                      flex items-end p-6
-                    "
-                  >
-                    <div>
-                      <h3 className="text-white font-bold text-lg">
-                        {photo.title}
-                      </h3>
-                      <p className="text-white/70 text-sm">
-                        Click to view
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              />
             ))}
           </div>
         </div>

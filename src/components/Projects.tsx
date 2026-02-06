@@ -81,7 +81,7 @@ const Projects = () => {
         setStartIndex((prev) => prev + 1); // Trigger update
         setIsAnimating(false);
       }, 500); // Wait for fade out
-    }, 5000);
+    }, 12000);
 
     return () => clearInterval(interval);
   }, []);
