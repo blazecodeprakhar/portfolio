@@ -3,6 +3,7 @@ import { ProjectCard } from "@/components/ui/project-card";
 import { ArrowRight, Code2 } from "lucide-react";
 import { useImagePreloader } from "@/hooks/use-image-preloader";
 import { motion, AnimatePresence } from "framer-motion";
+import { PremiumButton } from "@/components/ui/premium-button";
 
 const allProjects = [
   {
@@ -176,27 +177,12 @@ const Projects = () => {
             variants={headerVariants}
             className="flex justify-center mt-16 md:mt-20"
           >
-            <a
-              href="/projects"
-              className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white/[0.03] border border-white/10 hover:border-[#BD4FF4]/50 hover:bg-[#BD4FF4]/10 text-white font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(189,79,244,0.15)] overflow-hidden"
-            >
-              <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_2s_infinite]" />
-              <span className="text-sm tracking-widest uppercase font-bold text-gray-300 group-hover:text-white transition-colors relative z-10">
-                Explore Full Archive
-              </span>
-              <div className="w-8 h-8 rounded-full bg-[#BD4FF4] flex items-center justify-center relative z-10 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(189,79,244,0.5)]">
-                <ArrowRight className="h-4 w-4 text-white group-hover:translate-x-0.5 transition-transform" />
-              </div>
-            </a>
+            <PremiumButton href="/projects" variant="primary">
+              Explore Full Archive
+            </PremiumButton>
           </motion.div>
         </motion.div>
       </div>
-
-      <style>{`
-        @keyframes shimmer {
-          100% { transform: translateX(50%); }
-        }
-      `}</style>
     </section>
   );
 };

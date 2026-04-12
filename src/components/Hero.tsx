@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { PremiumButton } from "@/components/ui/premium-button";
 
 const Hero = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,15 +24,23 @@ const Hero = () => {
       vx: number;
       vy: number;
       size: number;
+      colorBase: string;
     }[] = [];
 
-    for (let i = 0; i < 120; i++) {
+    const palettes = [
+      "180, 80, 255", // Purple
+      "216, 70, 239", // Fuchsia
+      "253, 224, 71", // Yellow
+    ];
+
+    for (let i = 0; i < 100; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
-        size: Math.random() * 2 + 0.8,
+        size: Math.random() * 2 + 0.5,
+        colorBase: palettes[Math.floor(Math.random() * palettes.length)],
       });
     }
 
@@ -48,10 +58,13 @@ const Hero = () => {
         const dx = mouseX - p.x;
         const dy = mouseY - p.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 180) {
-          p.x += dx * 0.002;
-          p.y += dy * 0.002;
+
+        // Interactive "repel" physics for a more dynamic feel
+        if (distance < 150) {
+          p.x -= dx * 0.01;
+          p.y -= dy * 0.01;
         }
+
         p.x += p.vx;
         p.y += p.vy;
 
@@ -62,9 +75,9 @@ const Hero = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(180, 80, 255, 0.7)";
-        ctx.shadowColor = "rgba(180, 80, 255, 0.8)";
-        ctx.shadowBlur = 8;
+        ctx.fillStyle = `rgba(${p.colorBase}, 0.7)`;
+        ctx.shadowColor = `rgba(${p.colorBase}, 0.8)`;
+        ctx.shadowBlur = p.size * 3;
         ctx.fill();
       });
 
@@ -79,64 +92,147 @@ const Hero = () => {
     };
   }, []);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a0a10] via-[#0d0d18] to-[#07070d]"
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-[#030305]"
     >
-      {/* Particle Background */}
+      {/* Background Ambience / Glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] md:w-[45vw] md:h-[45vw] rounded-full bg-purple-900/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[10%] w-[40vw] h-[40vw] md:w-[30vw] md:h-[30vw] rounded-full bg-yellow-600/5 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[10%] left-[10%] w-[50vw] h-[50vw] md:w-[40vw] md:h-[40vw] rounded-full bg-fuchsia-900/10 blur-[130px] pointer-events-none" />
+
+      {/* Particle Background Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="absolute inset-0 pointer-events-none opacity-50 mix-blend-screen"
       />
 
+      {/* Grid Overlay for Texture */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+      ></div>
+      <div
+        className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-20"
+        style={{ maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)", WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)" }}
+      ></div>
+
       {/* Content */}
-      <div className="relative z-10 text-center text-white px-4 animate-fade-in">
-        {/* Responsive prakhar.dev text */}
-        <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold mb-2 sm:mb-4 tracking-tight leading-tight">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-400 drop-shadow-[0_0_25px_rgba(180,80,255,0.4)]">
-            prakhar.dev
+      <motion.div
+        className="relative z-10 text-center px-6 flex flex-col items-center max-w-4xl w-full"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Availability Status Badge */}
+        <motion.div
+          variants={itemVariants}
+          className="mb-8 inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/5 bg-white/[0.03] backdrop-blur-md transition-colors hover:bg-white/[0.06] cursor-pointer"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-        </h1>
+          <span className="text-xs sm:text-sm font-medium text-white/70 tracking-wide">
+            Available for new opportunities
+          </span>
+        </motion.div>
 
-        {/* Smaller and tighter paragraph for phone */}
-        <p className="text-base sm:text-lg md:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-md sm:max-w-2xl mx-auto leading-snug sm:leading-relaxed">
+        {/* Headline */}
+        <motion.h1
+          variants={itemVariants}
+          className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold mb-5 md:mb-8 tracking-tighter leading-tight relative break-words"
+        >
+          <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 relative z-10">
+            prakhar.
+          </span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-400 via-fuchsia-500 to-yellow-500 relative z-10">
+            dev
+          </span>
+          {/* Headline Background Glow */}
+          <span className="absolute -inset-4 bg-gradient-to-r from-purple-500 to-fuchsia-500 blur-3xl opacity-20 -z-10 rounded-full"></span>
+        </motion.h1>
+
+        {/* Roles */}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-wrap justify-center items-center gap-x-3 sm:gap-x-5 gap-y-2 text-xs sm:text-sm md:text-base font-medium text-gray-400 mb-8 py-2 md:py-2.5 px-4 sm:px-8 rounded-full border border-white/5 bg-white/5 backdrop-blur-sm shadow-xl w-auto max-w-full"
+        >
+          <span className="hover:text-white transition-colors cursor-pointer">Developer</span>
+          <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(250,204,21,0.8)]"></span>
+          <span className="hover:text-white transition-colors cursor-pointer">Designer</span>
+          <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]"></span>
+          <span className="hover:text-white transition-colors cursor-pointer">Photographer</span>
+        </motion.div>
+
+        {/* Subtitle */}
+        <motion.p
+          variants={itemVariants}
+          className="text-sm sm:text-base md:text-xl lg:text-2xl text-gray-400 max-w-[280px] sm:max-w-xl md:max-w-2xl mx-auto leading-normal sm:leading-relaxed mb-10 md:mb-12 font-light"
+        >
           Crafting your digital presence with{" "}
-          <span className="text-purple-400 font-medium">style</span> and{" "}
-          <span className="text-purple-400 font-medium">performance</span>.
-        </p>
+          <span className="text-white font-medium relative whitespace-nowrap">
+            style
+            <span className="absolute -bottom-0.5 sm:-bottom-1 left-0 w-full h-[2px] bg-purple-500/80 rounded-full blur-[0.5px]"></span>
+          </span>{" "}
+          and{" "}
+          <span className="text-white font-medium relative whitespace-nowrap">
+            performance
+            <span className="absolute -bottom-0.5 sm:-bottom-1 left-0 w-full h-[2px] bg-yellow-500/80 rounded-full blur-[0.5px]"></span>
+          </span>.
+        </motion.p>
 
-        <div className="flex justify-center gap-4 sm:gap-6 text-gray-400 text-sm sm:text-lg mb-10 sm:mb-12">
-          <span className="hover:text-purple-400 transition-colors">
-            Developer
-          </span>
-          <span className="text-purple-500">•</span>
-          <span className="hover:text-purple-400 transition-colors">
-            Designer
-          </span>
-          <span className="text-purple-500">•</span>
-          <span className="hover:text-purple-400 transition-colors">
-            Photographer
-          </span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-5">
+        {/* CTA Buttons */}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 w-full px-2 sm:px-0"
+        >
+          {/* Primary Button - Smooth & Matte */}
           <a
             href="#projects"
-            className="px-7 sm:px-8 py-3 sm:py-4 rounded-full bg-purple-600 hover:bg-purple-500 font-semibold text-white transition-all duration-300 shadow-[0_0_15px_rgba(180,80,255,0.6)] hover:shadow-[0_0_25px_rgba(180,80,255,0.9)] transform hover:scale-105 inline-flex items-center justify-center gap-2 text-sm sm:text-base"
+            className="group relative px-8 py-4 h-[56px] rounded-full overflow-hidden w-full sm:w-auto min-w-[200px] flex items-center justify-center transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px] bg-gradient-to-b from-purple-600 to-purple-800 shadow-[0_6px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)]"
           >
-            View Projects
-            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+            {/* Whisper-soft Shimmer Glass Effect */}
+            <div className="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_2s_infinite]" />
+
+            <span className="relative z-10 flex items-center gap-3 text-sm tracking-widest uppercase font-bold text-white transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:tracking-[0.18em]">
+              <span className="whitespace-nowrap">View Projects</span>
+              
+              {/* Matte Yellow Accent Icon Container */}
+              <div className="relative flex items-center justify-center w-7 h-7 rounded-full bg-white/10 group-hover:bg-yellow-400 group-hover:scale-[1.1] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden flex-shrink-0">
+                {/* Ultra-Smooth Twin Arrow Slip */}
+                <ArrowRight className="absolute inset-0 m-auto h-4 w-4 text-yellow-400 group-hover:translate-x-[150%] transition-transform duration-[600ms] ease-[cubic-bezier(0.65,0,0.35,1)]" />
+                <ArrowRight className="absolute inset-0 m-auto h-4 w-4 text-purple-900 -translate-x-[150%] group-hover:translate-x-0 transition-transform duration-[600ms] ease-[cubic-bezier(0.65,0,0.35,1)]" />
+              </div>
+            </span>
           </a>
 
-          <a
-            href="#contact"
-            className="px-7 sm:px-8 py-3 sm:py-4 rounded-full border border-purple-400 text-purple-300 hover:text-white hover:bg-purple-600/20 transition-all duration-300 transform hover:scale-105 font-semibold text-sm sm:text-base"
-          >
+          <PremiumButton href="#contact" variant="secondary" className="h-[56px] min-w-[200px]">
             Get in Touch
-          </a>
-        </div>
-      </div>
+          </PremiumButton>
+        </motion.div>
+      </motion.div>
+
+      {/* Decorative gradient line */}
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
     </section>
   );
 };

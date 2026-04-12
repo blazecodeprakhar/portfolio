@@ -1,6 +1,7 @@
 "use client";
 
 import { Github, Linkedin, Instagram, Mail, ArrowRight } from "lucide-react";
+import { LaserSnake } from "@/components/ui/laser-snake";
 
 // Reusable Footer Link Component with Micro-Animation
 const FooterLink = ({ href, label }: { href: string; label: string }) => (
@@ -19,7 +20,9 @@ const FooterLink = ({ href, label }: { href: string; label: string }) => (
 
 const Footer = () => {
   return (
-    <footer className="relative bg-[#07070d] text-white pt-24 pb-8 overflow-hidden">
+    <footer className="relative bg-[#07070d] text-white pt-24 pb-8 overflow-hidden group/footer">
+      <LaserSnake />
+      
       {/* ---------------- BACKGROUND DEPTH & AMBIENT GLOWS ---------------- */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-[#BD4FF4]/20 to-transparent" />
 
@@ -33,9 +36,26 @@ const Footer = () => {
           <div className="text-center md:text-left space-y-4">
             <a
               href="#home"
-              className="inline-block text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 hover:from-[#BD4FF4] hover:to-violet-400 transition-all duration-500 cursor-pointer drop-shadow-sm"
+              className="inline-block text-4xl font-extrabold cursor-pointer transition-all duration-500"
             >
-              prakhar<span className="text-[#BD4FF4]">.dev</span>
+              {/* prakhar */}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
+                prakhar
+              </span>
+
+              {/* dot */}
+              <span className="text-gray-300">.</span>
+
+              {/* dev with 50–50 gradient */}
+              <span
+                className="text-transparent bg-clip-text"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(135deg, #CC65F5 0%, #CC65F5 50%, #E48A60 100%)",
+                }}
+              >
+                dev
+              </span>
             </a>
             <p className="text-gray-400/80 max-w-md font-light leading-relaxed text-sm lg:text-base">
               Crafting premium digital experiences. Bringing bold visions to life through modern web architecture and stunning UI/UX design.
