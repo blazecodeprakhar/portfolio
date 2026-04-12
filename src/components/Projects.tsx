@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ProjectCard } from "@/components/ui/project-card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Code2 } from "lucide-react";
 import { useImagePreloader } from "@/hooks/use-image-preloader";
+import { motion, AnimatePresence } from "framer-motion";
 
 const allProjects = [
   {
@@ -65,28 +66,21 @@ const allProjects = [
 ];
 
 const Projects = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [visibleProjects, setVisibleProjects] = useState(allProjects.slice(0, 3));
-  const [isAnimating, setIsAnimating] = useState(false);
+  const prevIndicesRef = useRef<number[]>([]);
 
   // Preload all project images for smooth transitions
   useImagePreloader(allProjects.map((p) => p.image));
 
-  // Auto-rotate projects every 5 seconds
+  // Auto-rotate projects every 12 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setStartIndex((prev) => prev + 1); // Trigger update
-        setIsAnimating(false);
-      }, 500); // Wait for fade out
+      setStartIndex((prev) => prev + 1);
     }, 12000);
 
     return () => clearInterval(interval);
   }, []);
-
-  const prevIndicesRef = useRef<number[]>([]);
 
   // Update visible projects when startIndex changes (randomly select 3)
   useEffect(() => {
@@ -114,63 +108,95 @@ const Projects = () => {
     setVisibleProjects(items);
   }, [startIndex]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const cards = entry.target.querySelectorAll(".project-card");
-            cards.forEach((card, index) => {
-              card.classList.remove("opacity-0");
-              card.classList.add("animate-fade-in");
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+  };
 
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, [visibleProjects]); // Re-run observer when projects change
+  const headerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
 
   return (
     <section
       id="projects"
-      className="pt-20 md:pt-24 pb-12 md:pb-16 bg-background"
+      className="relative pt-24 md:pt-32 pb-20 md:pb-28 bg-[#0a0a10] overflow-hidden"
     >
+      {/* Subtle Background Elements */}
+      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none -translate-x-1/2" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-fuchsia-600/5 rounded-full blur-[120px] pointer-events-none translate-x-1/3 translate-y-1/3" />
 
-      <div className="container mx-auto px-4 md:px-6">
-        <div ref={sectionRef}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
-            Projects
-          </h2>
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {/* Header */}
+          <motion.div variants={headerVariants} className="text-center mb-16 md:mb-20">
+            <h2 className="text-xs md:text-sm font-bold tracking-[0.2em] text-[#BD4FF4] uppercase mb-3 flex items-center justify-center gap-2">
+              <Code2 className="w-4 h-4" /> Portfolio
+            </h2>
+            <h3 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
+              Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-[#BD4FF4] to-violet-400 drop-shadow-[0_0_15px_rgba(189,79,244,0.3)]">Works</span>
+            </h3>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto font-light">
+              A curated showcase of full-stack applications, interactive experiences, and digital products I've engineered.
+            </p>
+          </motion.div>
 
-          <div className={`max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-opacity duration-500 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
-            {visibleProjects.map((project, index) => (
-              <ProjectCard
-                key={`${project.title}-${startIndex}-${index}`}
-                className="project-card" // Removed opacity-0 here to let the state transition handle it better, or keep it for initial load
-                title={project.title}
-                description={project.description}
-                imgSrc={project.image}
-                link={project.link}
-                linkText={project.linkText}
-              />
-            ))}
+          {/* Cards Grid */}
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10">
+            <AnimatePresence mode="popLayout">
+              {visibleProjects.map((project, index) => (
+                <motion.div
+                  key={`${project.title}-${startIndex}-${index}`}
+                  initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
+                  transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
+                >
+                  <ProjectCard
+                    title={project.title}
+                    description={project.description}
+                    imgSrc={project.image}
+                    link={project.link}
+                    linkText={project.linkText}
+                    className="h-full"
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
-          <div className="flex justify-center mt-12 project-card">
+          {/* CTA Button */}
+          <motion.div 
+            variants={headerVariants}
+            className="flex justify-center mt-16 md:mt-20"
+          >
             <a
               href="/projects"
-              className="inline-flex items-center space-x-2 px-8 py-3 bg-primary text-primary-foreground rounded-full font-semibold hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+              className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white/[0.03] border border-white/10 hover:border-[#BD4FF4]/50 hover:bg-[#BD4FF4]/10 text-white font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(189,79,244,0.15)] overflow-hidden"
             >
-              <span>See More Projects</span>
-              <ArrowRight className="h-4 w-4" />
+              <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_2s_infinite]" />
+              <span className="text-sm tracking-widest uppercase font-bold text-gray-300 group-hover:text-white transition-colors relative z-10">
+                Explore Full Archive
+              </span>
+              <div className="w-8 h-8 rounded-full bg-[#BD4FF4] flex items-center justify-center relative z-10 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(189,79,244,0.5)]">
+                <ArrowRight className="h-4 w-4 text-white group-hover:translate-x-0.5 transition-transform" />
+              </div>
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
+
+      <style>{`
+        @keyframes shimmer {
+          100% { transform: translateX(50%); }
+        }
+      `}</style>
     </section>
   );
 };
