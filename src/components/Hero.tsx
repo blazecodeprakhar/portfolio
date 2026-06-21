@@ -176,11 +176,11 @@ const Hero = () => {
           variants={itemVariants}
           className="flex flex-wrap justify-center items-center gap-x-3 sm:gap-x-5 gap-y-2 text-xs sm:text-sm md:text-base font-medium text-gray-400 mb-8 py-2 md:py-2.5 px-4 sm:px-8 rounded-full border border-white/5 bg-white/5 backdrop-blur-sm shadow-xl w-auto max-w-full"
         >
-          <span className="hover:text-white transition-colors cursor-pointer">Developer</span>
+          <span className="hover:text-white transition-colors cursor-pointer">Full-Stack Developer</span>
           <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(250,204,21,0.8)]"></span>
-          <span className="hover:text-white transition-colors cursor-pointer">Designer</span>
+          <span className="hover:text-white transition-colors cursor-pointer">Cybersecurity</span>
           <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]"></span>
-          <span className="hover:text-white transition-colors cursor-pointer">Photographer</span>
+          <span className="hover:text-white transition-colors cursor-pointer">AI & Machine Learning</span>
         </motion.div>
 
         {/* Subtitle */}

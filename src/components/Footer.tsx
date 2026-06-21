@@ -118,7 +118,7 @@ const Footer = () => {
             <div className="flex items-center gap-3">
               {[
                 { icon: Github, href: "https://github.com/blazecodeprakhar", color: "group-hover:border-white/40 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]" },
-                { icon: Linkedin, href: "https://www.linkedin.com/in/prakhar-yadav-0963s8299/", color: "group-hover:border-[#0077B5]/40 group-hover:shadow-[0_0_15px_rgba(0,119,181,0.3)] group-hover:text-[#0077B5]" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/prakhar-yadav096/", color: "group-hover:border-[#0077B5]/40 group-hover:shadow-[0_0_15px_rgba(0,119,181,0.3)] group-hover:text-[#0077B5]" },
                 { icon: Instagram, href: "https://www.instagram.com/iitzprakhar/", color: "group-hover:border-[#E4405F]/40 group-hover:shadow-[0_0_15px_rgba(228,64,95,0.3)] group-hover:text-[#E4405F]" },
                 { icon: Mail, href: "mailto:prakharyadav096@gmail.com", color: "group-hover:border-[#BD4FF4]/40 group-hover:shadow-[0_0_15px_rgba(189,79,244,0.3)] group-hover:text-[#BD4FF4]" }
               ].map((social, idx) => (

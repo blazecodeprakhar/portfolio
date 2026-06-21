@@ -7,6 +7,18 @@ import { PremiumButton } from "@/components/ui/premium-button";
 
 const allProjects = [
   {
+    title: "FreeMediaKit - Media Download Suite",
+    description: "A comprehensive media utility suite featuring high-speed Instagram downloaders, thumbnail grabbers, audio converters, media compressors, and PDF tools.",
+    link: "https://freemediakit.com/",
+    image: "/assets/freemediakit.png",
+  },
+  {
+    title: "FreeResumeKit - AI Resume Builder",
+    description: "An AI-powered, ATS-optimized online resume builder. Build professional, recruiter-ready resumes in minutes with zero signup and instant PDF generation.",
+    link: "https://www.freeresumekit.com/",
+    image: "/assets/freeresumekit.png",
+  },
+  {
     title: "AskAI - Intelligent Chat SaaS",
     description: "A full-stack AI chat application using React, TypeScript, and Supabase, integrated with Google Gemini AI for smart conversations and document understanding.",
     link: "https://askaichat.netlify.app/",

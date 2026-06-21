@@ -6,6 +6,18 @@ import { ThemeProvider } from "next-themes";
 
 const fullStackProjects = [
     {
+        title: "FreeMediaKit - Media Download Suite",
+        description: "A comprehensive media utility suite featuring high-speed Instagram downloaders, thumbnail grabbers, audio converters, media compressors, and PDF tools.",
+        link: "https://freemediakit.com/",
+        image: "/assets/freemediakit.png",
+    },
+    {
+        title: "FreeResumeKit - AI Resume Builder",
+        description: "An AI-powered, ATS-optimized online resume builder. Build professional, recruiter-ready resumes in minutes with zero signup and instant PDF generation.",
+        link: "https://www.freeresumekit.com/",
+        image: "/assets/freeresumekit.png",
+    },
+    {
         title: "AskAI - Intelligent Chat SaaS",
         description: "A full-stack AI chat application using React, TypeScript, and Supabase, integrated with Google Gemini AI for smart conversations and document understanding, including chat with images, PDFs, and text files.",
         link: "https://askaichat.netlify.app/",
@@ -57,6 +69,12 @@ const gameProjects = [
 
 const aiProjects = [
     {
+        title: "FreeResumeKit - AI Resume Builder",
+        description: "An AI-powered, ATS-optimized online resume builder. Build professional, recruiter-ready resumes in minutes with zero signup and instant PDF generation.",
+        link: "https://www.freeresumekit.com/",
+        image: "/assets/freeresumekit.png",
+    },
+    {
         title: "AskAI - Intelligent Chat SaaS",
         description: "A full-stack AI chat application using React, TypeScript, and Supabase, integrated with Google Gemini AI for smart conversations and document understanding.",
         link: "https://askaichat.netlify.app/",
@@ -71,6 +89,12 @@ const aiProjects = [
 ];
 
 const otherProjects = [
+    {
+        title: "FreeMediaKit - Media Download Suite",
+        description: "A comprehensive media utility suite featuring high-speed Instagram downloaders, thumbnail grabbers, audio converters, media compressors, and PDF tools.",
+        link: "https://freemediakit.com/",
+        image: "/assets/freemediakit.png",
+    },
     {
         title: "Universal Video Downloader",
         description: "A powerful, production-ready video downloader for YouTube and Instagram. Built with Node.js, Express, and yt-dlp, featuring a modern, fully responsive UI.",

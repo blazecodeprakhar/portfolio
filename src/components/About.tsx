@@ -1,278 +1,346 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import { ArrowRight, MapPin, Mail, Phone, Briefcase, GraduationCap, Github, Linkedin, BrainCircuit, Database, Server, Component, Code2, Bot, Download } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { 
+  Briefcase, GraduationCap, Github, Linkedin, Download, 
+  Shield, Cpu, Award, MapPin, Mail, Phone, Code2, Server, Database, Cloud
+} from "lucide-react";
 
 const About = () => {
-  const containerRef = useRef<HTMLElement>(null);
-  const [isDesktop, setIsDesktop] = useState(true);
-  
-  // Mouse tracking for parallax glows
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const [activeTab, setActiveTab] = useState<"overview" | "timeline" | "certifications">("overview");
 
-  // Check if we are on a desktop device to selectively enable parallax
-  useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth > 768);
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "timeline", label: "Timeline" },
+    { id: "certifications", label: "Certifications" }
+  ] as const;
 
-  // Smooth springs for a very fluid, "underwater" feel
-  const springConfig = { damping: 30, stiffness: 35 };
-  const springX = useSpring(mouseX, springConfig);
-  const springY = useSpring(mouseY, springConfig);
+  const personalInfo = [
+    { icon: MapPin, text: "Dehradun, India", color: "text-purple-400" },
+    { icon: Mail, text: "prakharyadav096@gmail.com", href: "mailto:prakharyadav096@gmail.com", color: "text-fuchsia-400" },
+    { icon: Phone, text: "+91 6390498069", href: "tel:+916390498069", color: "text-violet-400" }
+  ];
 
-  // Transforms to move the glows subtly
-  const leftCircleX = useTransform(springX, [-1, 1], ["calc(-50% - 40px)", "calc(-50% + 40px)"]);
-  const leftCircleY = useTransform(springY, [-1, 1], ["calc(-50% - 40px)", "calc(-50% + 40px)"]);
-
-  const rightCircleX = useTransform(springX, [-1, 1], ["calc(33% + 45px)", "calc(33% - 45px)"]);
-  const rightCircleY = useTransform(springY, [-1, 1], ["calc(0% + 45px)", "calc(0% - 45px)"]);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    // Only run on non-touch desktop screens to explicitly optimize mobile performance
-    if (!containerRef.current || !isDesktop) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Normalize coordinates from -1 to 1 based on the center
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    mouseX.set((x - centerX) / centerX);
-    mouseY.set((y - centerY) / centerY);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
+  const pillars = [
+    {
+      title: "Full-Stack Development",
+      description: "Designing and deploying production-ready web applications. Building RESTful APIs and secure authentication systems using React, Node.js, Express, MongoDB, and Firebase.",
+      icon: Code2,
+      color: "from-purple-500/20 to-indigo-500/20 border-purple-500/30 text-purple-400"
     },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    {
+      title: "Cybersecurity",
+      description: "Practiced in network hacking, web penetration testing (OWASP Top 10), and post-exploitation using Kali Linux, Metasploit, Burp Suite, Wireshark, and Nmap.",
+      icon: Shield,
+      color: "from-cyan-500/20 to-blue-500/20 border-cyan-500/30 text-cyan-400"
     },
-  };
+    {
+      title: "Machine Learning & AI",
+      description: "Building and deploying regression, classification, and deep learning models (ANN, CNN). Experience integrating AI capabilities and automating CI/CD with AWS SageMaker.",
+      icon: Cpu,
+      color: "from-fuchsia-500/20 to-pink-500/20 border-fuchsia-500/30 text-fuchsia-400"
+    }
+  ];
+
+  const timeline = [
+    {
+      type: "experience",
+      title: "Full-Stack Developer",
+      subtitle: "Freelance",
+      date: "June 2025 - Present",
+      points: [
+        "Designed and deployed responsive full-stack applications using React, Node.js, Express, and databases.",
+        "Built secure RESTful APIs and integrated Firebase / MongoDB authentication.",
+        "Followed modern UI/UX design standards for seamless cross-browser compatibility."
+      ],
+      icon: Briefcase,
+      color: "border-fuchsia-500/40 text-fuchsia-400"
+    },
+    {
+      type: "education",
+      title: "B.Tech - Computer Science & Engineering",
+      subtitle: "DIT University | Dehradun, India",
+      date: "Expected May 2028",
+      points: [
+        "Specializing in Cyber Security and Privacy.",
+        "Gaining structured foundations in algorithms, system design, security protocols, and AI applications."
+      ],
+      icon: GraduationCap,
+      color: "border-violet-500/40 text-violet-400"
+    }
+  ];
+
+  const certifications = [
+    {
+      title: "Learn Ethical Hacking From Scratch",
+      provider: "Udemy | zSecurity",
+      duration: "15 hours",
+      year: "2025",
+      color: "border-cyan-500/20 hover:border-cyan-500/50 hover:bg-cyan-500/5"
+    },
+    {
+      title: "Website Hacking and Penetration Testing",
+      provider: "Udemy | zSecurity",
+      duration: "10 hours",
+      year: "2025",
+      color: "border-cyan-500/20 hover:border-cyan-500/50 hover:bg-cyan-500/5"
+    },
+    {
+      title: "Machine Learning A-Z: AI, Python & AWS",
+      provider: "Udemy | Kirill Eremenko",
+      duration: "49.5 hours",
+      year: "2026",
+      color: "border-purple-500/20 hover:border-purple-500/50 hover:bg-purple-500/5"
+    },
+    {
+      title: "Deep Learning A-Z: Neural Networks & AI",
+      provider: "Udemy | Kirill Eremenko",
+      duration: "23 hours",
+      year: "2026",
+      color: "border-purple-500/20 hover:border-purple-500/50 hover:bg-purple-500/5"
+    }
+  ];
+
+  const skills = [
+    { name: "React / Frontend", icon: Code2, color: "text-purple-400" },
+    { name: "Node.js / Express", icon: Server, color: "text-fuchsia-400" },
+    { name: "MongoDB / Firebase", icon: Database, color: "text-violet-400" },
+    { name: "Cybersecurity & Kali", icon: Shield, color: "text-cyan-400" },
+    { name: "Python / ML / DL", icon: Cpu, color: "text-purple-300" },
+    { name: "AWS & SageMaker", icon: Cloud, color: "text-fuchsia-300" }
+  ];
 
   return (
-    <section
-      id="about"
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="relative py-24 md:py-32 bg-[#07070d] overflow-hidden"
-    >
-      {/* Background Ambient Glows tracked to cursor + slow natural breathing */}
-      <motion.div 
-        style={{ x: leftCircleX, y: leftCircleY }}
-        animate={{ 
-          scale: [1, 1.05, 1], 
-          opacity: [0.6, 0.8, 0.6] 
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-600/15 rounded-full blur-[100px] md:blur-[120px] pointer-events-none" 
-      />
-      <motion.div 
-        style={{ x: rightCircleX, y: rightCircleY }}
-        animate={{ 
-          scale: [1, 1.08, 1], 
-          opacity: [0.5, 0.7, 0.5] 
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute top-1/4 right-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-fuchsia-600/15 rounded-full blur-[80px] md:blur-[100px] pointer-events-none" 
-      />
+    <section id="about" className="relative py-24 md:py-32 bg-[#07070d] overflow-hidden">
+      {/* Background Ambient Lights */}
+      <div className="absolute top-1/3 left-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/3" />
+      <div className="absolute bottom-1/3 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-fuchsia-600/5 rounded-full blur-[120px] pointer-events-none translate-x-1/3" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="max-w-6xl mx-auto"
-        >
-          {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16 md:mb-24">
-            <h2 className="text-xs md:text-sm font-bold tracking-[0.2em] text-purple-400 uppercase mb-3">
-              Discover Who I Am
-            </h2>
-            <h3 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight">
-              Behind the <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-400 drop-shadow-[0_0_15px_rgba(180,80,255,0.3)]">Code</span>
-            </h3>
-          </motion.div>
+      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-6xl">
+        {/* Section Header */}
+        <div className="text-center mb-16 md:mb-20">
+          <h2 className="text-xs md:text-sm font-bold tracking-[0.2em] text-purple-400 uppercase mb-3">
+            About Me
+          </h2>
+          <h3 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+            Behind The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-400">Profile</span>
+          </h3>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-start">
-            
-            {/* Profile Card Section */}
-            <motion.div 
-              variants={itemVariants}
-              className="lg:col-span-5 lg:sticky lg:top-32 self-start w-full"
-            >
-              <div className="glass p-8 sm:p-10 lg:p-8 xl:p-10 rounded-[2rem] border border-white/[0.08] shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col items-center lg:items-start space-y-10 relative overflow-hidden bg-white/[0.01]">
-                {/* Top highlight bar */}
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-500 opacity-80" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* LEFT PANEL - Profile Card */}
+          <div className="lg:col-span-4 lg:sticky lg:top-24 flex flex-col gap-6">
+            <div className="glass p-6 sm:p-8 rounded-[2rem] border border-white/[0.05] bg-white/[0.01] relative overflow-hidden flex flex-col items-center text-center lg:text-left lg:items-start gap-6">
+              {/* Decorative top accent line */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-500" />
+              
+              {/* Profile Image Container */}
+              <div className="relative group w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden border border-white/10 bg-[#0d0d18] shadow-2xl shrink-0">
+                <img
+                  src="/assets/dp.jpeg"
+                  alt="Prakhar Yadav"
+                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
 
-                <div className="relative group mx-auto lg:mx-0 w-full flex justify-center lg:justify-start">
-                  {/* Custom Snake Border wrapper for the DP */}
-                  <div className="snake-border w-56 h-56 sm:w-72 sm:h-72 lg:w-64 lg:h-64 xl:w-80 xl:h-80 mx-auto lg:mx-0 relative z-10">
-                    <div className="snake-inner w-full h-full bg-[#0d0d18] overflow-hidden">
-                      <img
-                        src="/assets/dp.jpeg"
-                        alt="Prakhar Yadav"
-                        className="w-full h-full object-cover rounded-[1.6rem] opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform duration-700 ease-out"
-                      />
-                    </div>
+              {/* Identity info */}
+              <div className="space-y-1">
+                <h4 className="text-2xl font-bold text-white tracking-tight">Prakhar Yadav</h4>
+                <p className="text-xs text-purple-400 font-mono tracking-widest uppercase">Student & Developer</p>
+              </div>
+
+              {/* Contact Directory list */}
+              <div className="w-full border-t border-white/[0.06] pt-6 flex flex-col gap-4 text-sm text-gray-400">
+                {personalInfo.map((info, idx) => (
+                  <div key={idx} className="flex items-center gap-3 justify-center lg:justify-start">
+                    <info.icon className={`w-4 h-4 shrink-0 ${info.color}`} />
+                    {info.href ? (
+                      <a href={info.href} className="hover:text-white transition-colors truncate">
+                        {info.text}
+                      </a>
+                    ) : (
+                      <span className="truncate">{info.text}</span>
+                    )}
                   </div>
+                ))}
+              </div>
 
-                  {/* Floating Badge */}
-                  <motion.div 
-                    animate={{ y: [-5, 5, -5] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -bottom-4 -right-2 sm:-right-4 lg:-right-6 glass px-5 py-3 rounded-2xl border border-purple-500/40 shadow-[0_0_20px_rgba(180,80,255,0.3)] backdrop-blur-md z-20 flex flex-col items-center"
-                  >
-                    <p className="text-lg sm:text-xl font-bold text-white mb-0 leading-tight tracking-tight">Prakhar</p>
-                    <p className="text-purple-300 text-[10px] sm:text-xs font-semibold uppercase tracking-widest mt-0.5">Yadav</p>
-                  </motion.div>
-
-                  {/* Background decorative dots */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/30 to-transparent rounded-full blur-2xl z-0" />
-                </div>
-
-                {/* Socials & Resume CTA */}
-                <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-center gap-4 w-full">
+              {/* Resume CTA & Social Icons */}
+              <div className="w-full pt-2 flex flex-col sm:flex-row lg:flex-col xl:flex-row items-center gap-3">
+                <a
+                  href="/Prakhar_Resume.pdf"
+                  download="Prakhar_Resume.pdf"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/[0.04] border border-white/10 hover:border-purple-500/40 hover:bg-purple-500/10 text-white font-medium text-xs tracking-widest uppercase transition-all duration-300"
+                >
+                  <Download className="w-4 h-4" />
+                  Download CV
+                </a>
+                <div className="flex items-center gap-2 shrink-0">
                   <a
-                    href="/Prakhar_Resume.pdf"
-                    download="Prakhar_Resume.pdf"
-                    className="group relative flex-1 w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white/[0.03] border border-white/10 hover:border-[#BD4FF4]/50 hover:bg-[#BD4FF4]/10 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(189,79,244,0.15)] overflow-hidden"
+                    href="https://github.com/blazecodeprakhar"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-white/[0.04] border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/20 text-gray-300 hover:text-white transition-all"
                   >
-                    <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] md:group-hover:animate-[shimmer_2s_infinite]" />
-                    <span className="text-xs sm:text-sm tracking-widest uppercase font-bold text-gray-300 group-hover:text-white transition-colors relative z-10 w-full sm:w-auto text-center">
-                      Download Resume
-                    </span>
-                    <div className="w-8 h-8 rounded-full bg-[#BD4FF4] flex items-center justify-center shrink-0 relative z-10 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(189,79,244,0.5)]">
-                      <Download className="h-4 w-4 text-white group-hover:translate-y-0.5 transition-transform" />
-                    </div>
+                    <Github className="w-4 h-4" />
                   </a>
-                  <div className="flex items-center gap-3">
-                    <a href="https://github.com/blazecodeprakhar" target="_blank" rel="noopener noreferrer" className="p-3.5 rounded-full bg-white/[0.05] border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/20 text-gray-300 hover:text-white transition-all transform hover:-translate-y-1 group hover:shadow-[0_0_15px_rgba(180,80,255,0.4)]">
-                      <Github className="w-5 h-5" />
-                    </a>
-                    <a href="https://www.linkedin.com/in/prakhar-yadav096/" target="_blank" rel="noopener noreferrer" className="p-3.5 rounded-full bg-white/[0.05] border border-white/10 hover:border-fuchsia-500/50 hover:bg-fuchsia-500/20 text-gray-300 hover:text-white transition-all transform hover:-translate-y-1 group hover:shadow-[0_0_15px_rgba(217,70,239,0.4)]">
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                  </div>
+                  <a
+                    href="https://www.linkedin.com/in/prakhar-yadav096/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-white/[0.04] border border-white/10 hover:border-fuchsia-500/50 hover:bg-fuchsia-500/20 text-gray-300 hover:text-white transition-all"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
                 </div>
               </div>
-            </motion.div>
+            </div>
+          </div>
 
-            {/* Content Section */}
-            <motion.div 
-              variants={itemVariants}
-              className="lg:col-span-7 space-y-10 lg:pt-4"
-            >
-              {/* About Text */}
-              <div className="space-y-4">
-                <h4 className="text-2xl font-bold text-white">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-400">About Me</span>
-                </h4>
-                <p className="text-base sm:text-lg text-gray-400 leading-relaxed font-light text-justify sm:text-left">
-                  I am a <strong className="text-white font-medium">Full-Stack Web Developer</strong> with hands-on experience in frontend development, backend development, REST APIs, databases, and authentication systems. I have experience building production-ready web projects and continually advancing my skills in modern web technologies.
-                </p>
-              </div>
+          {/* RIGHT PANEL - Interactive Tabs */}
+          <div className="lg:col-span-8 space-y-8">
+            {/* Tabs Selector Navigation */}
+            <div className="grid grid-cols-3 lg:flex p-1 rounded-xl bg-white/[0.02] border border-white/10 w-full lg:w-fit gap-1">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative px-1.5 sm:px-5 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide uppercase transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? "text-white bg-purple-600/20 border border-purple-500/30"
+                      : "text-gray-400 hover:text-white border border-transparent"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
-                {/* Experience */}
-                <div className="space-y-6 md:pr-4">
-                  <h4 className="text-xl font-bold text-white flex items-center gap-2">
-                    <Briefcase className="text-fuchsia-400 w-5 h-5"/> Experience
-                  </h4>
-                  <div className="relative border-l border-white/10 pl-6 space-y-8">
-                    <div className="relative group">
-                      <div className="absolute -left-[29px] bg-[#07070d] border border-fuchsia-500/50 p-1 rounded-full group-hover:border-fuchsia-400 transition-colors">
-                        <div className="w-1.5 h-1.5 bg-fuchsia-500 rounded-full group-hover:scale-150 transition-transform" />
+            {/* Tab Contents Frame */}
+            <div className="min-h-[360px] lg:min-h-[400px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* OVERVIEW PANEL */}
+                  {activeTab === "overview" && (
+                    <div className="space-y-6">
+                      <div className="space-y-4">
+                        <h4 className="text-2xl font-bold text-white tracking-tight">Focus & Objectives</h4>
+                        <p className="text-gray-400 leading-relaxed text-base font-light text-justify sm:text-left">
+                          B.Tech Computer Science student specializing in Cyber Security & Privacy at DIT University. Equipped with hands-on full-stack development capability, cybersecurity fundamentals, and model construction skills in AI & Machine Learning.
+                        </p>
                       </div>
-                      <p className="text-xs text-fuchsia-400 font-mono mb-1 tracking-wider">JUNE 2025</p>
-                      <h5 className="text-white font-semibold text-base sm:text-lg">Full-Stack Developer</h5>
-                      <p className="text-xs text-purple-200/60 mt-0.5">Freelance Projects</p>
-                      <p className="text-sm text-gray-500 mt-3 leading-relaxed group-hover:text-gray-400 transition-colors">
-                        Developed and deployed full-stack web applications, integrating frontend (React, HTML, CSS) and backend (Node.js, Express) with databases like MongoDB and Firebase. Implemented user authentication, APIs, and responsive design.
-                      </p>
-                    </div>
 
-                    <div className="relative group">
-                      <div className="absolute -left-[29px] bg-[#07070d] border border-purple-500/50 p-1 rounded-full group-hover:border-purple-400 transition-colors">
-                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full group-hover:scale-150 transition-transform" />
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        {pillars.map((pillar, idx) => (
+                          <div 
+                            key={idx} 
+                            className="p-4 sm:p-5 rounded-2xl border border-white/[0.05] bg-white/[0.01] flex flex-col gap-3 sm:gap-4 hover:border-white/10 hover:bg-white/[0.02] transition-all"
+                          >
+                            <div className={`p-2.5 rounded-lg w-fit bg-gradient-to-br ${pillar.color}`}>
+                              <pillar.icon className="w-5 h-5" />
+                            </div>
+                            <h5 className="text-white font-bold text-sm tracking-wide">{pillar.title}</h5>
+                            <p className="text-[11px] sm:text-xs text-gray-400 leading-relaxed">{pillar.description}</p>
+                          </div>
+                        ))}
                       </div>
-                      <p className="text-xs text-purple-400 font-mono mb-1 tracking-wider">JANUARY 2026</p>
-                      <h5 className="text-white font-semibold text-base sm:text-lg">AI & ML Enthusiast</h5>
-                      <p className="text-xs text-purple-200/60 mt-0.5">Self-Learning</p>
-                      <p className="text-sm text-gray-500 mt-3 leading-relaxed group-hover:text-gray-400 transition-colors">
-                        Currently upskilling in AI/ML concepts, focusing on Python and modern AI tools. Learning model building, basic algorithms, and integrating AI functionalities into web projects for future applications.
-                      </p>
                     </div>
-                  </div>
-                </div>
+                  )}
 
-                {/* Education */}
-                <div className="space-y-6">
-                  <h4 className="text-xl font-bold text-white flex items-center gap-2">
-                    <GraduationCap className="text-violet-400 w-5 h-5"/> Education
-                  </h4>
-                  <div className="relative border-l border-white/10 pl-6 space-y-8">
-                    <div className="relative group">
-                      <div className="absolute -left-[29px] bg-[#07070d] border border-violet-500/50 p-1 rounded-full group-hover:border-violet-400 transition-colors">
-                        <div className="w-1.5 h-1.5 bg-violet-500 rounded-full group-hover:scale-150 transition-transform" />
+                  {/* TIMELINE PANEL */}
+                  {activeTab === "timeline" && (
+                    <div className="space-y-8 pl-2">
+                      <div className="relative border-l border-white/10 pl-4 sm:pl-6 space-y-8 sm:space-y-10 py-2">
+                        {timeline.map((item, idx) => (
+                          <div key={idx} className="relative group">
+                            {/* Accent Dot */}
+                            <div className={`absolute -left-[25px] sm:-left-[31px] bg-[#07070d] border ${item.color} p-1 rounded-full group-hover:scale-110 transition-transform`}>
+                              <div className="w-1.5 h-1.5 bg-current rounded-full" />
+                            </div>
+                            
+                            {/* Card Content */}
+                            <div className="space-y-3">
+                              <span className="text-[10px] text-gray-500 font-mono tracking-widest uppercase">{item.date}</span>
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                                <h4 className="text-white font-bold text-base sm:text-lg tracking-tight">{item.title}</h4>
+                                <span className="hidden sm:inline text-gray-600">|</span>
+                                <span className="text-xs sm:text-sm text-purple-400/80 font-medium">{item.subtitle}</span>
+                              </div>
+                              <ul className="text-xs sm:text-sm text-gray-400 space-y-1.5 list-disc list-inside leading-relaxed font-light">
+                                {item.points.map((pt, pIdx) => (
+                                  <li key={pIdx}>{pt}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                      <p className="text-xs text-violet-400 font-mono mb-1 tracking-wider">EXPECTED: MAY 2028</p>
-                      <h5 className="text-white font-semibold text-base sm:text-lg leading-snug">B.Tech In Computer Science</h5>
-                      <p className="text-sm text-violet-300 font-medium">(AI & ML)</p>
-                      <p className="text-sm text-gray-400 mt-2">DIT University, Dehradun</p>
                     </div>
+                  )}
+
+                  {/* CERTIFICATIONS PANEL */}
+                  {activeTab === "certifications" && (
+                    <div className="space-y-6">
+                      <div className="space-y-1">
+                        <h4 className="text-2xl font-bold text-white tracking-tight">Credentials</h4>
+                        <p className="text-xs text-gray-500 font-light">Certified credentials validating specialization areas.</p>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {certifications.map((cert, idx) => (
+                          <div
+                            key={idx}
+                            className={`p-4 sm:p-5 rounded-2xl border bg-white/[0.01] transition-all duration-300 flex flex-col justify-between gap-3 sm:gap-4 ${cert.color} group`}
+                          >
+                            <div className="space-y-2">
+                              <div className="flex justify-between items-start gap-2">
+                                <h5 className="text-white font-bold text-xs sm:text-sm leading-snug group-hover:text-purple-300 transition-colors">
+                                  {cert.title}
+                                </h5>
+                                <span className="text-[10px] text-gray-500 font-mono shrink-0">{cert.year}</span>
+                              </div>
+                              <p className="text-[11px] sm:text-xs text-gray-400 font-medium">{cert.provider}</p>
+                            </div>
+                            <span className="text-[10px] text-purple-400 font-mono tracking-wider bg-purple-500/10 px-2 py-0.5 rounded w-fit uppercase">
+                              {cert.duration}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* STATIC SKILLS DRAWER - Always Visible underneath */}
+            <div className="border-t border-white/[0.06] pt-8 space-y-4">
+              <h4 className="text-sm font-bold text-white tracking-widest uppercase">
+                Core Stack & Arsenal
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-white/5 bg-white/[0.01] hover:bg-purple-500/10 hover:border-purple-500/30 transition-all duration-300 cursor-default group"
+                  >
+                    <skill.icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${skill.color} group-hover:scale-110 transition-transform`} />
+                    <span className="text-[11px] sm:text-xs md:text-sm text-gray-300 group-hover:text-white transition-colors font-medium">
+                      {skill.name}
+                    </span>
                   </div>
-                </div>
+                ))}
               </div>
-
-              {/* Skills */}
-              <div className="space-y-5 pt-4">
-                <h4 className="text-xl font-bold text-white">
-                  Skills <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-400 opacity-60 text-sm ml-2 font-normal">/ Technologies</span>
-                </h4>
-                <div className="flex flex-wrap gap-2.5">
-                  {[
-                    { name: "Frontend (React, HTML5, CSS3)", icon: Component, color: "text-purple-400" },
-                    { name: "Backend (Node.js, Express)", icon: Server, color: "text-fuchsia-400" },
-                    { name: "Databases (MongoDB, Firebase, PostgreSQL)", icon: Database, color: "text-violet-400" },
-                    { name: "API Integration & Auth", icon: Code2, color: "text-purple-300" },
-                    { name: "AI-Driven Insights", icon: BrainCircuit, color: "text-fuchsia-300" },
-                    { name: "AI-Powered Automation", icon: Bot, color: "text-violet-300" }
-                  ].map((skill, idx) => (
-                    <div key={idx} className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/10 bg-white/[0.02] hover:bg-purple-500/10 hover:border-purple-500/40 transition-all cursor-default group">
-                      <skill.icon className={`w-4 h-4 ${skill.color} group-hover:scale-110 transition-transform`} />
-                      <span className="text-sm text-gray-300 group-hover:text-white transition-colors">{skill.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </motion.div>
+            </div>
 
           </div>
-        </motion.div>
+        </div>
       </div>
-
-      {/* Shimmer animation for the CTA button */}
-      <style>{`
-        @keyframes shimmer {
-          100% { transform: translateX(50%); }
-        }
-      `}</style>
     </section>
   );
 };
