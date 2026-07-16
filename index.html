@@ -9,7 +9,13 @@
       content="Portfolio of Prakhar Yadav - Developer, Designer, Photographer. Crafting digital experiences with style and performance."
     />
     <meta name="author" content="Prakhar Yadav" />
-    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Prakhar Yadav, blazecodeprakhar, portfolio, full stack developer, cybersecurity, Dehradun, web designer, react developer, programmer, freelance developer, software engineer" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="theme-color" content="#07070d" />
+    <meta name="rating" content="General" />
+    <meta name="distribution" content="Global" />
+    <meta name="revisit-after" content="7 days" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://blazecodeprakhar.netlify.app/" />
@@ -61,7 +67,39 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Semantic HTML Fallback for SEO Crawlers (Replaced by React on mount) -->
+      <header style="display:none;">
+        <h1>blazecodeprakhar - Prakhar Yadav's Portfolio</h1>
+        <p>Developer, Designer, and Photographer. Crafting digital experiences with style and performance.</p>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/projects">Projects</a>
+        </nav>
+      </header>
+      <main style="display:none;">
+        <section>
+          <h2>About Prakhar Yadav</h2>
+          <p>Full-Stack Developer, Cybersecurity Specialist, and AI/Machine Learning practitioner based in Dehradun, India.</p>
+        </section>
+        <section>
+          <h2>Technical Skills</h2>
+          <p>Web Development, UI/UX Design, Cyber Security, React, Node.js, Express, MongoDB, Firebase, TypeScript, Python.</p>
+        </section>
+        <section>
+          <h2>Featured Projects</h2>
+          <ul>
+            <li>FreeMediaKit - Media Download Suite</li>
+            <li>FreeResumeKit - AI Resume Builder</li>
+            <li>AskAI - Intelligent Chat SaaS</li>
+            <li>Territory Clash - Fast-paced territory capture game</li>
+          </ul>
+        </section>
+      </main>
+      <footer style="display:none;">
+        <p>© 2026 blazecodeprakhar. All rights reserved.</p>
+      </footer>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
