@@ -22,7 +22,7 @@ const Footer = () => {
   return (
     <footer className="relative bg-[#07070d] text-white pt-24 pb-8 overflow-hidden group/footer">
       <LaserSnake />
-      
+
       {/* ---------------- BACKGROUND DEPTH & AMBIENT GLOWS ---------------- */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-[#BD4FF4]/20 to-transparent" />
 
