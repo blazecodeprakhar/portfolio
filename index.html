@@ -50,29 +50,58 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Prakhar Yadav",
-        "url": "https://blazecodeprakhar.netlify.app/",
-        "image": "https://blazecodeprakhar.netlify.app/assets/preview.png",
-        "sameAs": [
-          "https://twitter.com/iitzprakhar",
-          "https://github.com/iitzprakhar"
-        ],
-        "jobTitle": "Developer, Designer, Photographer",
-        "description": "Developer, Designer, Photographer - Crafting digital experiences with style and performance.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Dehradun",
-          "addressRegion": "Uttarakhand",
-          "addressCountry": "IN"
-        },
-        "knowsAbout": [
-          "Web Development",
-          "Full-Stack Development",
-          "React",
-          "Node.js",
-          "Cybersecurity",
-          "UI/UX Design"
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://blazecodeprakhar.netlify.app/#person",
+            "name": "Prakhar Yadav",
+            "alternateName": ["blazecodeprakhar", "blaze.prakhar"],
+            "url": "https://blazecodeprakhar.netlify.app/",
+            "image": "https://blazecodeprakhar.netlify.app/assets/preview.png",
+            "sameAs": [
+              "https://github.com/blazecodeprakhar",
+              "https://www.linkedin.com/in/prakhar-yadav096/",
+              "https://www.instagram.com/iitzprakhar/",
+              "https://twitter.com/iitzprakhar",
+              "https://x.com/iitzprakhar"
+            ],
+            "jobTitle": "Full-Stack Developer, Cybersecurity Specialist",
+            "description": "Developer, Designer, Photographer - Crafting digital experiences with style and performance.",
+            "alumniOf": {
+              "@type": "EducationalOrganization",
+              "name": "DIT University",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Dehradun",
+                "addressRegion": "Uttarakhand",
+                "addressCountry": "IN"
+              }
+            },
+            "knowsAbout": [
+              "Web Development",
+              "Full-Stack Development",
+              "React",
+              "Node.js",
+              "Cybersecurity",
+              "UI/UX Design",
+              "Machine Learning",
+              "Artificial Intelligence",
+              "Python",
+              "AWS"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://blazecodeprakhar.netlify.app/#website",
+            "url": "https://blazecodeprakhar.netlify.app/",
+            "name": "blazecodeprakhar",
+            "publisher": {
+              "@id": "https://blazecodeprakhar.netlify.app/#person"
+            },
+            "author": {
+              "@id": "https://blazecodeprakhar.netlify.app/#person"
+            }
+          }
         ]
       }
     </script>
