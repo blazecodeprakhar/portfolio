@@ -106,11 +106,6 @@ const Navbar = () => {
       drop-shadow-sm
     "
           >
-            {/* blazecode */}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
-              blazecode
-            </span>
-
             {/* prakhar (50-50 gradient) */}
             <span
               className="text-transparent bg-clip-text"

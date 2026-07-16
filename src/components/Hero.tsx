@@ -162,10 +162,10 @@ const Hero = () => {
           className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold mb-5 md:mb-8 tracking-tighter leading-tight relative break-words"
         >
           <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 relative z-10">
-            prakhar.
+            blaze.
           </span>
           <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-400 via-fuchsia-500 to-yellow-500 relative z-10">
-            dev
+            prakhar
           </span>
           {/* Headline Background Glow */}
           <span className="absolute -inset-4 bg-gradient-to-r from-purple-500 to-fuchsia-500 blur-3xl opacity-20 -z-10 rounded-full"></span>
@@ -215,7 +215,7 @@ const Hero = () => {
 
             <span className="relative z-10 flex items-center gap-3 text-sm tracking-widest uppercase font-bold text-white transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:tracking-[0.18em]">
               <span className="whitespace-nowrap">View Projects</span>
-              
+
               {/* Matte Yellow Accent Icon Container */}
               <div className="relative flex items-center justify-center w-7 h-7 rounded-full bg-white/10 group-hover:bg-yellow-400 group-hover:scale-[1.1] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden flex-shrink-0">
                 {/* Ultra-Smooth Twin Arrow Slip */}
