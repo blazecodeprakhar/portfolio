@@ -61,7 +61,7 @@ const websiteProjects = [
 const gameProjects = [
     {
         title: "Territory Clash",
-        description: "A fast-paced territory capture game built by prakhar.dev. Conquer land, protect your trail, and dominate the map!",
+        description: "A fast-paced territory capture game built by blazecodeprakhar. Conquer land, protect your trail, and dominate the map!",
         link: "https://territory-clash-v2.netlify.app/",
         image: "/assets/territory-clash.png",
     },

@@ -38,15 +38,12 @@ const Footer = () => {
               href="#home"
               className="inline-block text-4xl font-extrabold cursor-pointer transition-all duration-500"
             >
-              {/* prakhar */}
+              {/* blazecode */}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
-                prakhar
+                blazecode
               </span>
 
-              {/* dot */}
-              <span className="text-gray-300">.</span>
-
-              {/* dev with 50–50 gradient */}
+              {/* prakhar (50-50 gradient) */}
               <span
                 className="text-transparent bg-clip-text"
                 style={{
@@ -54,7 +51,7 @@ const Footer = () => {
                     "linear-gradient(135deg, #CC65F5 0%, #CC65F5 50%, #E48A60 100%)",
                 }}
               >
-                dev
+                prakhar
               </span>
             </a>
             <p className="text-gray-400/80 max-w-md font-light leading-relaxed text-sm lg:text-base">
@@ -172,7 +169,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="text-white hover:text-[#BD4FF4] transition-colors font-bold"
             >
-              prakhar.dev
+              blazecodeprakhar
             </a>{" "}
             All Rights Reserved.
           </p>

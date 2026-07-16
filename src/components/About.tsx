@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { 
-  Briefcase, GraduationCap, Github, Linkedin, Download, 
+import {
+  Briefcase, GraduationCap, Github, Linkedin, Download,
   Shield, Cpu, Award, MapPin, Mail, Phone, Code2, Server, Database, Cloud
 } from "lucide-react";
 
@@ -132,7 +132,7 @@ const About = () => {
             <div className="glass p-6 sm:p-8 rounded-[2rem] border border-white/[0.05] bg-white/[0.01] relative overflow-hidden flex flex-col items-center text-center lg:text-left lg:items-start gap-6">
               {/* Decorative top accent line */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-violet-500" />
-              
+
               {/* Profile Image Container */}
               <div className="relative group w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden border border-white/10 bg-[#0d0d18] shadow-2xl shrink-0">
                 <img
@@ -204,11 +204,10 @@ const About = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`relative px-1.5 sm:px-5 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide uppercase transition-all duration-300 ${
-                    activeTab === tab.id
+                  className={`relative px-1.5 sm:px-5 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide uppercase transition-all duration-300 ${activeTab === tab.id
                       ? "text-white bg-purple-600/20 border border-purple-500/30"
                       : "text-gray-400 hover:text-white border border-transparent"
-                  }`}
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -237,8 +236,8 @@ const About = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                         {pillars.map((pillar, idx) => (
-                          <div 
-                            key={idx} 
+                          <div
+                            key={idx}
                             className="p-4 sm:p-5 rounded-2xl border border-white/[0.05] bg-white/[0.01] flex flex-col gap-3 sm:gap-4 hover:border-white/10 hover:bg-white/[0.02] transition-all"
                           >
                             <div className={`p-2.5 rounded-lg w-fit bg-gradient-to-br ${pillar.color}`}>
@@ -262,7 +261,7 @@ const About = () => {
                             <div className={`absolute -left-[25px] sm:-left-[31px] bg-[#07070d] border ${item.color} p-1 rounded-full group-hover:scale-110 transition-transform`}>
                               <div className="w-1.5 h-1.5 bg-current rounded-full" />
                             </div>
-                            
+
                             {/* Card Content */}
                             <div className="space-y-3">
                               <span className="text-[10px] text-gray-500 font-mono tracking-widest uppercase">{item.date}</span>
@@ -290,7 +289,7 @@ const About = () => {
                         <h4 className="text-2xl font-bold text-white tracking-tight">Credentials</h4>
                         <p className="text-xs text-gray-500 font-light">Certified credentials validating specialization areas.</p>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {certifications.map((cert, idx) => (
                           <div

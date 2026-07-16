@@ -106,15 +106,12 @@ const Navbar = () => {
       drop-shadow-sm
     "
           >
-            {/* prakhar */}
+            {/* blazecode */}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
-              prakhar
+              blazecode
             </span>
 
-            {/* dot */}
-            <span className="text-gray-300">.</span>
-
-            {/* dev (50–50 gradient) */}
+            {/* prakhar (50-50 gradient) */}
             <span
               className="text-transparent bg-clip-text"
               style={{
@@ -122,7 +119,7 @@ const Navbar = () => {
                   "linear-gradient(135deg, #CC65F5 0%, #CC65F5 50%, #E48A60 100%)",
               }}
             >
-              dev
+              prakhar
             </span>
           </span>
 
