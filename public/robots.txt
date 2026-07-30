@@ -1,7 +1,48 @@
-# Allow all web crawlers, search engines, and AI search agents to index the portfolio
-User-agent: *
+# ==========================================
+# Robots.txt for blazecodeprakhar
+# Optimized for Search Engines & AI Agents
+# ==========================================
+
+# 1. Search Engine Crawlers (Allow all)
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: DuckDuckBot
+User-agent: Yandex
+User-agent: Baiduspider
+User-agent: NaverBot
+Allow: /
+Disallow: /node_modules/
+Disallow: /dist/
+
+# 2. AI Crawlers & LLM Scraping Agents (Explicitly allowed for search optimization)
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: Google-Extended
+User-agent: OAI-SearchBot
+User-agent: PerplexityBot
+User-agent: cohere-ai
+User-agent: Anthropic-AI
+User-agent: Meta-ExternalAgent
 Allow: /
 
-# Primary host and Sitemap location
+# 3. Social Media Link Previews (Allow all to generate rich link snippets)
+User-agent: facebookexternalhit
+User-agent: twitterbot
+User-agent: LinkedInBot
+User-agent: Slackbot
+User-agent: TelegramBot
+User-agent: WhatsApp
+Allow: /
+
+# 4. Default rules for all other crawlers
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /dist/
+
+# Sitemap and Host
 Host: https://blazecodeprakhar.netlify.app
 Sitemap: https://blazecodeprakhar.netlify.app/sitemap.xml

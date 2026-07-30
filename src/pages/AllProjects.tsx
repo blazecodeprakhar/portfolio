@@ -156,9 +156,14 @@ const ProjectSection = ({ title, projects }: { title: string; projects: any[] })
 };
 
 const AllProjects = () => {
-    // Scroll to top on mount
+    // Scroll to top on mount and set page metadata
     useEffect(() => {
         window.scrollTo(0, 0);
+        document.title = "Projects | Prakhar Yadav - Full-Stack Developer & Cybersecurity Specialist";
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+            canonical.setAttribute("href", "https://blazecodeprakhar.netlify.app/projects");
+        }
     }, []);
 
     return (

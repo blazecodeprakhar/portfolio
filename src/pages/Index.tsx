@@ -14,6 +14,14 @@ const Index = () => {
   const location = useLocation();
 
   useEffect(() => {
+    document.title = "Prakhar Yadav | blazecodeprakhar - Full-Stack Developer & Cybersecurity Specialist";
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute("href", "https://blazecodeprakhar.netlify.app/");
+    }
+  }, []);
+
+  useEffect(() => {
     if (location.hash) {
       setTimeout(() => {
         const element = document.querySelector(location.hash);
