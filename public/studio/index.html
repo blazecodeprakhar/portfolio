@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlazeCode Studio | VS Code IDE & Code Runner</title>
+  <meta name="description" content="A powerful VS Code style online code editor with file explorer, multi-language support, real-time code execution, context menu, and collapsible output console." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- CodeMirror Editor Core & Theme Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/eclipse.min.css" />
+  
+  <!-- Custom Styles with Cache Buster -->
+  <link rel="stylesheet" href="style.css?v=8.0" />
+
+  <!-- Pyodide for Browser Python Execution -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+</head>
+<body>
+
+  <!-- APP CONTAINER -->
+  <div class="app-container">
+    
+    <!-- TOP HEADER / TOOLBAR -->
+    <header class="top-header">
+      <div class="brand">
+        <a href="/" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-code-branch brand-icon"></i>
+          <span class="brand-name">BlazeCode Studio</span>
+        </a>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="clearEditorBtn" title="Clear Code">
+          <i class="fa-solid fa-trash-can"></i> Clear
+        </button>
+        <button class="btn btn-secondary" id="copyCodeBtn" title="Copy Code">
+          <i class="fa-solid fa-copy"></i> Copy
+        </button>
+        <button class="btn btn-primary" id="runCodeBtn" title="Execute Code (Ctrl + Enter)">
+          <i class="fa-solid fa-play"></i> Run Code
+        </button>
+        <a href="/" class="btn btn-secondary" style="text-decoration:none;" title="Return to Portfolio">
+          <i class="fa-solid fa-arrow-left"></i> Portfolio
+        </a>
+      </div>
+    </header>
+
+    <!-- MAIN EDITING WORKSPACE (VS CODE THREE-PANEL LAYOUT) -->
+    <main class="workspace-panel">
+
+      <!-- 1. VS CODE SIDEBAR (FILES EXPLORER) -->
+      <aside class="vscode-sidebar" id="vscodeSidebar">
+        <!-- Activity Bar Icons -->
+        <div class="activity-bar">
+          <button class="activity-icon active" title="Explorer (Files)">
+            <i class="fa-regular fa-folder-open"></i>
+          </button>
+        </div>
+
+        <!-- File Tree Explorer -->
+        <div class="file-explorer" id="fileExplorerSection">
+          <div class="explorer-header">
+            <span>EXPLORER</span>
+            <button class="icon-btn-sm" id="addNewFileBtn" title="New File (e.g. index.html, main.py, code.cpp)">
+              <i class="fa-solid fa-file-circle-plus"></i>
+            </button>
+          </div>
+          <div class="file-tree" id="fileTreeList">
+            <!-- Files injected dynamically via JS -->
+          </div>
+        </div>
+      </aside>
+
+      <!-- SIDEBAR RESIZER DIVIDER -->
+      <div class="resizer" id="sidebarResizer" title="Drag to resize File Explorer"></div>
+
+      <!-- 2. CENTER PANEL: CODE EDITOR -->
+      <section class="editor-section" id="editorContainer">
+        <!-- Editor Tabs Bar -->
+        <div class="editor-tabs-bar" id="editorTabsBar">
+          <!-- Open tabs injected dynamically -->
+        </div>
+
+        <!-- Sub Header with Cursor info -->
+        <div class="section-header">
+          <div class="section-title" id="activeFileTitle">
+            <i class="fa-brands fa-python"></i> main.py
+          </div>
+          <div class="editor-info">
+            <span id="cursorPos">Ln 1, Col 1</span>
+          </div>
+        </div>
+
+        <div class="editor-wrapper">
+          <textarea id="codeEditor"></textarea>
+        </div>
+      </section>
+
+      <!-- OUTPUT CONSOLE RESIZER DIVIDER -->
+      <div class="resizer" id="resizer" title="Drag to resize Output Console"></div>
+
+      <!-- 3. RIGHT PANEL: OUTPUT & CONSOLE (WITH CLOSE X BUTTON) -->
+      <section class="output-section" id="outputContainer">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa-solid fa-terminal"></i> Output & Console
+          </div>
+          <div class="output-actions">
+            <span class="status-pill" id="executionStatus">Ready</span>
+            <button class="icon-btn" id="clearOutputBtn" title="Clear Output">
+              <i class="fa-solid fa-eraser"></i>
+            </button>
+            <!-- CLOSE OPTION (X BUTTON) -->
+            <button class="icon-btn close-output-btn" id="closeOutputBtn" title="Close Output Panel">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+        <div class="output-wrapper">
+          <pre id="outputConsole">Press "Run Code" to execute script...</pre>
+          <iframe id="webPreviewFrame" class="web-preview-frame hidden"></iframe>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM STATUS BAR -->
+    <footer class="bottom-bar">
+      <!-- LEFT CORNER: DISGUISED AI PROMPT BAR -->
+      <div class="bottom-left-space" id="aiPromptContainer">
+        <div class="ai-input-wrapper">
+          <i class="fa-solid fa-terminal ai-sparkle-icon"></i>
+          <input 
+            type="text" 
+            id="aiPromptInput" 
+            placeholder="Type prompt here..." 
+            autocomplete="off"
+          />
+          <button id="aiGenerateBtn" class="ai-send-btn" title="Generate Code">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT CORNER: AUTO-DETECTED LANGUAGE & THEME TOGGLE -->
+      <div class="bottom-right-controls">
+        <!-- Re-open Output Panel Button if Closed -->
+        <button class="reopen-output-btn hidden" id="reopenOutputBtn" title="Show Output Console">
+          <i class="fa-solid fa-terminal"></i> Output
+        </button>
+
+        <!-- Auto Detected Language Pill -->
+        <div class="detected-lang-pill" id="detectedLangPill" title="Language automatically detected from active file extension">
+          <i class="fa-brands fa-python" id="detectedLangIcon"></i>
+          <span id="detectedLangName">Python 3</span>
+        </div>
+
+        <!-- Dark/Light Mode Select -->
+        <div class="control-group">
+          <label for="themeSelect"><i class="fa-solid fa-circle-half-stroke"></i></label>
+          <select id="themeSelect" class="styled-select">
+            <option value="dark">🌙 Dark Mode</option>
+            <option value="light">☀️ Light Mode</option>
+          </select>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- CUSTOM RIGHT CLICK CONTEXT MENU -->
+  <div class="context-menu hidden" id="fileContextMenu">
+    <div class="menu-item" id="ctxOpen"><i class="fa-solid fa-folder-open"></i> Open File</div>
+    <div class="menu-item" id="ctxRename"><i class="fa-solid fa-pen"></i> Rename File</div>
+    <div class="menu-item" id="ctxDuplicate"><i class="fa-solid fa-copy"></i> Duplicate</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" id="ctxNewFile"><i class="fa-solid fa-file-circle-plus"></i> New File</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item danger" id="ctxDelete"><i class="fa-solid fa-trash-can"></i> Delete File</div>
+  </div>
+
+  <!-- TOAST NOTIFICATION SYSTEM -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- CodeMirror Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/clike/clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/go/go.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/mode/simple.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/rust/rust.min.js"></script>
+
+  <!-- Application Logic -->
+  <script src="ai_engine.js"></script>
+  <script src="executor.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

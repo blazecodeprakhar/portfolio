@@ -77,6 +77,7 @@ const Footer = () => {
               <FooterLink href="#home" label="Home" />
               <FooterLink href="#skills" label="Technical Skills" />
               <FooterLink href="#projects" label="Work & Projects" />
+              <FooterLink href="#blazecode-studio" label="BlazeCode Studio" />
               <FooterLink href="#gallery" label="Photography" />
               <FooterLink href="#contact" label="Get In Touch" />
             </ul>
@@ -86,9 +87,9 @@ const Footer = () => {
           <div className="space-y-6">
             <h3 className="text-sm font-bold text-white tracking-[0.15em] uppercase">Resources</h3>
             <ul className="space-y-4">
+              <FooterLink href="/studio/index.html" label="Online IDE Compiler" />
               <FooterLink href="#" label="Privacy Policy" />
               <FooterLink href="#" label="Terms of Service" />
-              <FooterLink href="#" label="Cookie Guidelines" />
               <FooterLink href="#" label="Direct Support" />
             </ul>
           </div>

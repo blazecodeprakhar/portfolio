@@ -6,6 +6,7 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Gallery from "@/components/Gallery";
 import Contact from "@/components/Contact";
+import BlazeCodeStudioSection from "@/components/BlazeCodeStudioSection";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -42,6 +43,7 @@ const Index = () => {
           <Projects />
           <Gallery />
           <Contact />
+          <BlazeCodeStudioSection />
         </main>
         <Footer />
       </div>
