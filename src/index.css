@@ -211,3 +211,41 @@
       drop-shadow(0 0 8px rgba(189, 79, 244, 0.8)) drop-shadow(0 0 18px rgba(189, 79, 244, 0.5));
   }
 }
+
+/* ==========================================
+   🌌 COSMIC GALAXY CUSTOM SCROLLBAR SYSTEM
+   ========================================== */
+
+/* WebKit Browsers (Chrome, Edge, Safari, Brave) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05040a;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #CC65F5 0%, #9333ea 50%, #E48A60 100%);
+  border-radius: 9999px;
+  border: 2px solid #05040a;
+  box-shadow: 0 0 12px rgba(189, 79, 244, 0.6);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #E48A60 0%, #CC65F5 50%, #c084fc 100%);
+  box-shadow: 0 0 20px rgba(189, 79, 244, 0.9), 0 0 30px rgba(228, 138, 96, 0.6);
+}
+
+::-webkit-scrollbar-corner {
+  background: #05040a;
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #CC65F5 #05040a;
+}
