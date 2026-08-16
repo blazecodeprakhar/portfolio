@@ -165,48 +165,48 @@ const Gallery = () => {
           >
             {/* Extremely dark blurred backdrop */}
             <div className="absolute inset-0 bg-[#07070d]/98 backdrop-blur-2xl" />
-            
+
             {/* Fixed Close Button - Safe padding */}
-            <button 
-              onClick={() => setActive(null)} 
+            <button
+              onClick={() => setActive(null)}
               className="fixed top-4 right-4 md:top-8 md:right-8 p-3 rounded-full bg-white/[0.08] backdrop-blur-md border border-white/10 hover:bg-white/20 text-white transition-all z-50 group hover:-translate-y-1 shadow-lg"
               aria-label="Close lightbox"
             >
-                <X className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              <X className="w-6 h-6 group-hover:scale-110 transition-transform" />
             </button>
 
             {/* Modal Content Structure */}
-            <motion.div 
-               initial={{ scale: 0.9, y: 20, opacity: 0 }}
-               animate={{ scale: 1, y: 0, opacity: 1 }}
-               exit={{ scale: 0.95, y: -20, opacity: 0 }}
-               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-               className="relative z-10 flex flex-col items-center justify-center max-h-[90vh] max-w-7xl w-full"
-               onClick={(e) => e.stopPropagation()}
+            <motion.div
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: -20, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative z-10 flex flex-col items-center justify-center max-h-[90vh] max-w-7xl w-full"
+              onClick={(e) => e.stopPropagation()}
             >
-               {/* Image Wrapper (Fits to content natively) */}
-               <div className="relative rounded-xl overflow-hidden shadow-[0_0_60px_rgba(180,80,255,0.15)] flex-shrink-1">
-                  <img 
-                    src={photos[active].image} 
-                    alt={photos[active].title}
-                    className="max-w-full max-h-[65vh] md:max-h-[75vh] object-contain rounded-xl select-none" 
-                  />
-               </div>
+              {/* Image Wrapper (Fits to content natively) */}
+              <div className="relative rounded-xl overflow-hidden shadow-[0_0_60px_rgba(180,80,255,0.15)] flex-shrink-1">
+                <img
+                  src={photos[active].image}
+                  alt={photos[active].title}
+                  className="max-w-full max-h-[65vh] md:max-h-[75vh] object-contain rounded-xl select-none"
+                />
+              </div>
 
-               {/* Caption Text Box */}
-               <motion.div 
-                 initial={{ y: 20, opacity: 0 }}
-                 animate={{ y: 0, opacity: 1 }}
-                 transition={{ delay: 0.2 }}
-                 className="mt-6 md:mt-8 text-center px-4 flex-shrink-0"
-                >
-                  <h3 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-fuchsia-400 to-violet-400 mb-2 md:mb-3 drop-shadow-sm">
-                    {photos[active].title}
-                  </h3>
-                  <p className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
-                    {photos[active].description}
-                  </p>
-               </motion.div>
+              {/* Caption Text Box */}
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="mt-6 md:mt-8 text-center px-4 flex-shrink-0"
+              >
+                <h3 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-fuchsia-400 to-violet-400 mb-2 md:mb-3 drop-shadow-sm">
+                  {photos[active].title}
+                </h3>
+                <p className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
+                  {photos[active].description}
+                </p>
+              </motion.div>
             </motion.div>
 
           </motion.div>

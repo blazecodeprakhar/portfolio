@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState("home");
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -27,14 +28,17 @@ const Navbar = () => {
     } else {
       document.body.style.overflow = "auto";
     }
-    return () => { document.body.style.overflow = "auto"; };
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const isScrolled = window.scrollY > 30;
+      setScrolled(isScrolled);
 
-      const sections = navLinks.map(link => link.href.substring(1));
+      const sections = navLinks.map((link) => link.href.substring(1));
       let current = "";
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -52,10 +56,12 @@ const Navbar = () => {
         current = "home";
       }
 
-      setActiveSection(current);
+      if (current) {
+        setActiveSection(current);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -63,6 +69,9 @@ const Navbar = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
+
+    const sectionId = href.substring(1);
+    setActiveSection(sectionId);
 
     if (location.pathname === "/") {
       const element = document.querySelector(href);
@@ -76,132 +85,138 @@ const Navbar = () => {
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-[100] ease-out ${scrolled && !mobileMenuOpen
-        ? "bg-[#07070d]/80 backdrop-blur-xl border-b border-white/[0.05] shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all duration-500"
-        : "bg-transparent border-b border-transparent pt-2 transition-[background-color,border-color,padding] duration-300"
+    <>
+      {/* Outer Wrapper handles perfect centering across all screen sizes */}
+      <header
+        className={`fixed top-0 inset-x-0 z-[100] flex justify-center pointer-events-none transition-all duration-500 ease-out ${
+          scrolled ? "pt-3 md:pt-4 px-3 sm:px-6" : "pt-0 px-0"
         }`}
-    >
-      <div
-        className={`
-          relative z-50
-          container mx-auto 
-          px-4 md:px-8
-          transition-all duration-500
-          flex items-center justify-between
-          ${scrolled ? "py-4" : "py-6"}
-        `}
       >
-        {/* LOGO */}
-        <a
-          href="#home"
-          onClick={(e) => handleNavClick(e, "#home")}
-          className="flex items-center group cursor-pointer relative"
+        {/* Floating Capsule / Top Bar */}
+        <div
+          className={`pointer-events-auto w-full transition-all duration-500 ease-out flex items-center justify-between transform-gpu will-change-[padding,background-color,border-color,box-shadow,border-radius] ${
+            scrolled
+              ? "max-w-5xl lg:max-w-6xl rounded-full bg-[#080714]/85 backdrop-blur-2xl border border-purple-500/25 shadow-[0_12px_45px_rgba(0,0,0,0.8),0_0_30px_rgba(189,79,244,0.2)] py-2.5 px-4 sm:px-6 md:px-8"
+              : "max-w-7xl rounded-none bg-transparent border-b border-transparent py-5 px-6 md:px-10"
+          }`}
         >
-          <span
-            className="
-      text-[22px] md:text-[24px] 
-      font-extrabold tracking-tight
-      transition-all duration-500
-      drop-shadow-sm
-    "
-          >
-            {/* prakhar (50-50 gradient) */}
-            <span
-              className="text-transparent bg-clip-text"
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, #CC65F5 0%, #CC65F5 50%, #E48A60 100%)",
-              }}
-            >
-              prakhar
-            </span>
-          </span>
+          {/* Top Sheen Line when scrolled */}
+          {scrolled && (
+            <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400/40 to-transparent pointer-events-none rounded-full" />
+          )}
 
-          {/* glow effect */}
-          <div
-            className="
-      absolute left-1/2 top-1/2 
-      -translate-x-1/2 -translate-y-1/2 
-      w-full h-full 
-      bg-purple-500/20 blur-xl 
-      opacity-0 group-hover:opacity-100 
-      transition-opacity duration-500 
-      rounded-full mix-blend-screen 
-      pointer-events-none
-    "
-          />
-        </a>
-
-        {/* DESKTOP MENU */}
-        <div className="hidden md:flex items-center ml-auto gap-8 lg:gap-12">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.href.substring(1);
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`relative py-2 px-1 text-sm font-semibold tracking-widest uppercase transition-all duration-300 transform group cursor-pointer hover:-translate-y-0.5
-                  ${isActive ? 'text-white drop-shadow-sm' : 'text-gray-400 hover:text-white'}`}
-              >
-                <span className="relative z-10">{link.name}</span>
-
-                <span
-                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-purple-500 to-[#BD4FF4] transition-all duration-300 rounded-full
-                    ${isActive ? 'w-full opacity-100 shadow-[0_0_12px_rgba(189,79,244,0.8)]' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-50'}
-                  `}
-                />
-
-                <span className="absolute inset-x-0 -bottom-2 h-8 bg-purple-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none rounded-full" />
-              </a>
-            );
-          })}
-
+          {/* LOGO */}
           <a
-            href="#contact"
-            onClick={(e) => handleNavClick(e, "#contact")}
-            className="ml-4 px-6 py-2.5 rounded-full text-sm font-bold text-white bg-white/[0.03] border border-white/10 hover:border-[#BD4FF4]/50 hover:bg-[#BD4FF4]/10 transition-all duration-300 shadow-sm hover:shadow-[0_0_20px_rgba(189,79,244,0.2)] hover:-translate-y-1 relative overflow-hidden group"
+            href="#home"
+            onClick={(e) => handleNavClick(e, "#home")}
+            className="flex items-center group cursor-pointer relative py-1 shrink-0"
           >
-            <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_1.5s_infinite]" />
-            <span className="relative z-10">Hire Me</span>
+            <span className="text-[20px] sm:text-[22px] font-extrabold tracking-tight transition-all duration-300">
+              <span
+                className="text-transparent bg-clip-text"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(135deg, #CC65F5 0%, #CC65F5 50%, #E48A60 100%)",
+                }}
+              >
+                BLAZE
+              </span>
+            </span>
+
+            {/* Logo Ambient Glow */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full mix-blend-screen pointer-events-none" />
           </a>
-        </div>
 
-        {/* MOBILE MENU BUTTON */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className={`md:hidden p-2 rounded-xl border transition-all relative z-50 overflow-hidden group outline-none ${mobileMenuOpen ? "border-transparent bg-white/5" : "border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.05]"
+          {/* DESKTOP MENU */}
+          <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 ml-auto">
+            {navLinks.map((link) => {
+              const sectionId = link.href.substring(1);
+              const isActive = activeSection === sectionId;
+              const isHovered = hoveredLink === link.name;
+
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  onMouseEnter={() => setHoveredLink(link.name)}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  className={`relative px-3 md:px-4 py-1.5 text-xs md:text-[13px] font-bold tracking-wider uppercase transition-colors duration-200 rounded-full cursor-pointer flex items-center justify-center shrink-0 ${
+                    isActive ? "text-white" : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  {/* Hover Pill */}
+                  {isHovered && !isActive && (
+                    <motion.div
+                      layoutId="hoverNavPill"
+                      className="absolute inset-0 bg-white/10 rounded-full pointer-events-none"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+
+                  {/* Active Highlight Glass Pill */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavPill"
+                      className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600/40 via-fuchsia-600/35 to-purple-600/40 border border-purple-400/50 shadow-[0_0_20px_rgba(189,79,244,0.4)]"
+                      transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                    />
+                  )}
+
+                  <span className="relative z-10">{link.name}</span>
+                </a>
+              );
+            })}
+
+            {/* Hire Me CTA Button */}
+            <a
+              href="#contact"
+              onClick={(e) => handleNavClick(e, "#contact")}
+              className="ml-2 sm:ml-3 px-4 md:px-5 py-1.5 sm:py-2 rounded-full text-xs md:text-[13px] font-bold text-white bg-white/[0.06] border border-purple-400/40 hover:border-purple-400/90 hover:bg-purple-600/30 transition-all duration-300 shadow-sm hover:shadow-[0_0_20px_rgba(189,79,244,0.45)] hover:-translate-y-0.5 relative overflow-hidden group shrink-0"
+            >
+              <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-[100%] group-hover:animate-[shimmer_1.5s_infinite]" />
+              <span className="relative z-10">Hire Me</span>
+            </a>
+          </div>
+
+          {/* MOBILE MENU BUTTON */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`md:hidden p-2 rounded-full border transition-all relative z-50 overflow-hidden outline-none ${
+              mobileMenuOpen
+                ? "border-transparent bg-white/10"
+                : "border-white/10 bg-white/[0.03] hover:bg-white/10"
             }`}
-          aria-label="Toggle Menu"
-        >
-          <div className="absolute inset-0 bg-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity blur-md" />
-          <MenuToggleIcon
-            open={mobileMenuOpen}
-            className="h-6 w-6 text-gray-200 relative z-10"
-            duration={400}
-          />
-        </button>
-      </div>
+            aria-label="Toggle Menu"
+          >
+            <MenuToggleIcon
+              open={mobileMenuOpen}
+              className="h-5 w-5 text-gray-200 relative z-10"
+              duration={400}
+            />
+          </button>
+        </div>
+      </header>
 
-      {/* MOBILE MENU PANEL (Premium Full-Screen Overlay) */}
+      {/* MOBILE MENU OVERLAY */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden fixed inset-0 z-40 bg-[#07070d]/98 backdrop-blur-md flex flex-col items-center justify-center min-h-[100dvh] transform-gpu will-change-[opacity]"
-            style={{ touchAction: 'none' }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="md:hidden fixed inset-0 z-[90] bg-[#07070d]/96 backdrop-blur-2xl flex flex-col items-center justify-center min-h-[100dvh]"
+            style={{ touchAction: "none" }}
           >
-            {/* Tamed background glows */}
-            <div className="absolute top-1/3 left-0 w-[200px] h-[200px] bg-purple-500/5 rounded-full blur-[80px] pointer-events-none -translate-x-1/2" />
-            <div className="absolute bottom-1/3 right-0 w-[200px] h-[200px] bg-fuchsia-500/5 rounded-full blur-[80px] pointer-events-none translate-x-1/2" />
+            {/* Background Glow Orbs */}
+            <div className="absolute top-1/4 left-10 w-[180px] h-[180px] bg-purple-600/10 rounded-full blur-[70px] pointer-events-none" />
+            <div className="absolute bottom-1/4 right-10 w-[180px] h-[180px] bg-fuchsia-600/10 rounded-full blur-[70px] pointer-events-none" />
 
-            <div className="flex flex-col gap-6 text-center w-full px-6 relative z-10 items-center justify-center">
+            <div className="flex flex-col gap-5 text-center w-full px-8 relative z-10 items-center justify-center">
               {navLinks.map((link, i) => {
-                const isActive = activeSection === link.href.substring(1);
+                const sectionId = link.href.substring(1);
+                const isActive = activeSection === sectionId;
                 return (
                   <motion.a
                     key={link.name}
@@ -210,48 +225,52 @@ const Navbar = () => {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 15 }}
-                    transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative group inline-block"
+                    transition={{ delay: i * 0.06, duration: 0.4 }}
+                    className="relative group inline-block py-1"
                   >
-                    <span className={`
-                      text-2xl font-black tracking-[0.1em] uppercase py-1 transition-all duration-300 block
-                      ${isActive ? 'text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]' : 'text-white/60 group-active:text-white'}
-                    `}>
+                    <span
+                      className={`text-xl font-bold tracking-widest uppercase transition-all duration-300 ${
+                        isActive
+                          ? "text-purple-400 drop-shadow-[0_0_10px_rgba(189,79,244,0.6)]"
+                          : "text-gray-300 group-hover:text-white"
+                      }`}
+                    >
                       {link.name}
                     </span>
-                    {/* Active dot indicator on mobile */}
+
                     {isActive && (
                       <motion.div
                         layoutId="mobileActiveDot"
-                        className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]"
+                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-full bg-purple-400 shadow-[0_0_8px_rgba(189,79,244,0.8)]"
                       />
                     )}
                   </motion.a>
                 );
               })}
 
-              {/* Minimal Balanced Mobile CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 15 }}
-                transition={{ delay: navLinks.length * 0.08, duration: 0.5 }}
+                transition={{ delay: navLinks.length * 0.06, duration: 0.4 }}
                 className="pt-6"
               >
                 <a
                   href="#contact"
                   onClick={(e) => handleNavClick(e, "#contact")}
-                  className="inline-flex items-center justify-center w-full min-w-[200px] px-8 py-3.5 rounded-full text-sm font-bold tracking-widest uppercase text-white bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] transition-all transform active:scale-95"
+                  className="inline-flex items-center justify-center px-8 py-3 rounded-full text-sm font-bold tracking-widest uppercase text-white bg-gradient-to-r from-purple-600/80 to-fuchsia-600/80 border border-purple-400/40 shadow-[0_0_20px_rgba(189,79,244,0.3)] active:scale-95 transition-all"
                 >
-                  Start a Project
+                  Hire Me
                 </a>
               </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
 
 export default Navbar;
+
+
