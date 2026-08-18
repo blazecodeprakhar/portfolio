@@ -162,7 +162,7 @@ const AllProjects = () => {
         document.title = "Projects | Prakhar Yadav - Full-Stack Developer & Cybersecurity Specialist";
         const canonical = document.querySelector('link[rel="canonical"]');
         if (canonical) {
-            canonical.setAttribute("href", "https://blazecodeprakhar.netlify.app/projects");
+            canonical.setAttribute("href", "https://prakharcodes.netlify.app/projects");
         }
     }, []);
 

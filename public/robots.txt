@@ -44,5 +44,5 @@ Disallow: /node_modules/
 Disallow: /dist/
 
 # Sitemap and Host
-Host: https://blazecodeprakhar.netlify.app
-Sitemap: https://blazecodeprakhar.netlify.app/sitemap.xml
+Host: https://prakharcodes.netlify.app
+Sitemap: https://prakharcodes.netlify.app/sitemap.xml

@@ -1,2 +1,4 @@
 /sitemap/xml /sitemap.xml 301
+/studio/* /studio/:splat 200
 /* /index.html 200
+
