@@ -5,7 +5,7 @@ A modern, responsive, and fully interactive personal portfolio website showcasin
 ![Project Preview](public/preview.png)
 
 ## 🚀 Live Demo
-Visit the live portfolio: [prakhar.dev](https://prakharcodes.netlify.app/)
+Visit the live portfolio: [blazecodeprakhar.netlify.app](https://blazecodeprakhar.netlify.app/)
 
 ## ✨ Features
 - **Modern UI/UX**: Sleek design with smooth animations using `Framer Motion` and `Tailwind CSS`.
@@ -63,7 +63,7 @@ Visit the live portfolio: [prakhar.dev](https://prakharcodes.netlify.app/)
    ```
 
 ## 📬 Contact
-- **Website**: [prakhar.dev](https://prakharcodes.netlify.app/)
+- **Website**: [blazecodeprakhar.netlify.app](https://blazecodeprakhar.netlify.app/)
 - **Email**: [contact@prakhar.dev](mailto:contact@prakhar.dev)
 - **GitHub**: [blazecodeprakhar](https://github.com/blazecodeprakhar)
 
