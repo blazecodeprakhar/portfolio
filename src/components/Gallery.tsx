@@ -9,42 +9,42 @@ export const photos = [
     id: 1,
     title: "The Midnight Wish",
     description: "There Goes My Wish! Blink and You’ll Miss It!",
-    image: "assets/IMG_20240906_001512.png",
+    image: "assets/IMG_20240906_001512.webp",
   },
   {
     id: 2,
     title: "Cosmic Revelation",
     description:
       "The celestial tapestry is torn open, letting distant worlds spill through heavy clouds.",
-    image: "assets/IMG_20240506_230425.jpg",
+    image: "assets/IMG_20240506_230425.webp",
   },
   {
     id: 3,
     title: "Galactic Gems",
     description:
       "A visual guide of the night sky showing Betelgeuse, Orion’s Belt, and Venus.",
-    image: "assets/IMG_20240508_120453.jpg",
+    image: "assets/IMG_20240508_120453.webp",
   },
   {
     id: 4,
     title: "Chasing the Horizon",
     description:
       "Moving forward into fading light, leaving motion and memory behind.",
-    image: "assets/IMG_20240507_224945.jpg",
+    image: "assets/IMG_20240507_224945.webp",
   },
   {
     id: 5,
     title: "Sunset Signal",
     description:
       "Technology rising against the raw beauty of the twilight sky.",
-    image: "assets/IMG_20240601_145021.jpg",
+    image: "assets/IMG_20240601_145021.webp",
   },
   {
     id: 6,
     title: "Nature’s Window",
     description:
       "Where green earth meets a dramatic evening sky.",
-    image: "assets/IMG_20240621_224706.jpg",
+    image: "assets/IMG_20240621_224706.webp",
   },
 ];
 
@@ -121,6 +121,7 @@ const Gallery = () => {
                     src={photo.image}
                     alt={photo.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-auto object-cover transform group-hover:scale-[1.03] transition-transform duration-700 ease-out opacity-90 group-hover:opacity-100"
                   />
                 </div>
@@ -189,6 +190,7 @@ const Gallery = () => {
                 <img
                   src={photos[active].image}
                   alt={photos[active].title}
+                  decoding="async"
                   className="max-w-full max-h-[65vh] md:max-h-[75vh] object-contain rounded-xl select-none"
                 />
               </div>

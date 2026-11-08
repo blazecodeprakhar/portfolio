@@ -53,6 +53,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
               isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
             )}
             loading="lazy"
+            decoding="async"
             onLoad={() => setIsLoaded(true)}
           />
 

@@ -9,31 +9,31 @@ const fullStackProjects = [
         title: "FreeMediaKit - Media Download Suite",
         description: "A comprehensive media utility suite featuring high-speed Instagram downloaders, thumbnail grabbers, audio converters, media compressors, and PDF tools.",
         link: "https://freemediakit.com/",
-        image: "/assets/freemediakit.png",
+        image: "/assets/freemediakit.webp",
     },
     {
         title: "FreeResumeKit - AI Resume Builder",
         description: "An AI-powered, ATS-optimized online resume builder. Build professional, recruiter-ready resumes in minutes with zero signup and instant PDF generation.",
         link: "https://www.freeresumekit.com/",
-        image: "/assets/freeresumekit.png",
+        image: "/assets/freeresumekit.webp",
     },
     {
         title: "AskAI - Intelligent Chat SaaS",
         description: "A full-stack AI chat application using React, TypeScript, and Supabase, integrated with Google Gemini AI for smart conversations and document understanding, including chat with images, PDFs, and text files.",
         link: "https://askaichat.netlify.app/",
-        image: "/assets/askai.png",
+        image: "/assets/askai.webp",
     },
     {
         title: "BrightSmile Dental",
         description: "This website supports multiple languages with full online appointment and patient interaction features.",
         link: "https://brightsmileee.netlify.app/",
-        image: "/assets/brightsmile-dental.png",
+        image: "/assets/brightsmile-dental.webp",
     },
     {
         title: "RenTelMe",
         description: "Developed a full-stack premium rental web app featuring secure property listings, community insights, and a modern responsive UI. (Work in Progress)",
         link: "https://rentelme.netlify.app",
-        image: "/assets/rentelme.png",
+        image: "/assets/rentelme.webp",
     },
 ];
 
@@ -42,19 +42,19 @@ const websiteProjects = [
         title: "RAVVIK Global Solutions",
         description: "Built a responsive website for RAVVIK Global Solutions, showcasing indigenous defence technologies, products, and capabilities.",
         link: "https://ravvik.com/",
-        image: "/assets/ravvik.png",
+        image: "/assets/ravvik.webp",
     },
     {
         title: "Elegant Spaces",
         description: "A luxury interior design studio website featuring service sections, portfolio gallery, testimonials, FAQ, and consultation booking—built with a clean modern UI and responsive design.",
         link: "https://elegantzspaces.netlify.app/",
-        image: "/assets/elegant-spaces.jpg",
+        image: "/assets/elegant-spaces.webp",
     },
     {
         title: "Sagar Fitness",
         description: "Sagar Fitness – Online Fitness Coaching & Transformation Website",
         link: "https://sagarfitnessdemo.netlify.app/",
-        image: "/assets/sagar-fitness.png",
+        image: "/assets/sagar-fitness.webp",
     },
 ];
 
@@ -63,7 +63,7 @@ const gameProjects = [
         title: "Territory Clash",
         description: "A fast-paced territory capture game built by blazecodeprakhar. Conquer land, protect your trail, and dominate the map!",
         link: "https://territory-clash-v2.netlify.app/",
-        image: "/assets/territory-clash.png",
+        image: "/assets/territory-clash.webp",
     },
 ];
 
@@ -72,19 +72,19 @@ const aiProjects = [
         title: "FreeResumeKit - AI Resume Builder",
         description: "An AI-powered, ATS-optimized online resume builder. Build professional, recruiter-ready resumes in minutes with zero signup and instant PDF generation.",
         link: "https://www.freeresumekit.com/",
-        image: "/assets/freeresumekit.png",
+        image: "/assets/freeresumekit.webp",
     },
     {
         title: "AskAI - Intelligent Chat SaaS",
         description: "A full-stack AI chat application using React, TypeScript, and Supabase, integrated with Google Gemini AI for smart conversations and document understanding.",
         link: "https://askaichat.netlify.app/",
-        image: "/assets/askai.png",
+        image: "/assets/askai.webp",
     },
     {
         title: "AI Image Generator",
         description: "An AI-powered image generation tool that creates unique artwork from text prompts using advanced diffusion models.",
         link: "https://blazecodeprakhar.github.io/ai-art-generator/",
-        image: "/assets/ai-image-generator.png",
+        image: "/assets/ai-image-generator.webp",
     },
 ];
 
@@ -93,13 +93,13 @@ const otherProjects = [
         title: "FreeMediaKit - Media Download Suite",
         description: "A comprehensive media utility suite featuring high-speed Instagram downloaders, thumbnail grabbers, audio converters, media compressors, and PDF tools.",
         link: "https://freemediakit.com/",
-        image: "/assets/freemediakit.png",
+        image: "/assets/freemediakit.webp",
     },
     {
         title: "Universal Video Downloader",
         description: "A powerful, production-ready video downloader for YouTube and Instagram. Built with Node.js, Express, and yt-dlp, featuring a modern, fully responsive UI.",
         link: "https://universal-video-downloader-production.up.railway.app/",
-        image: "/assets/universal-video-downloader.png",
+        image: "/assets/universal-video-downloader.webp",
     },
 ];
 

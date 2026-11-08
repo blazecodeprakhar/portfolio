@@ -136,7 +136,7 @@ const About = () => {
               {/* Profile Image Container */}
               <div className="relative group w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden border border-white/10 bg-[#0d0d18] shadow-2xl shrink-0">
                 <img
-                  src="/assets/dp.jpeg"
+                  src="/assets/dp.webp" loading="lazy" decoding="async"
                   alt="Prakhar Yadav"
                   className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
                 />
